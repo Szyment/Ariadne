@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this repository or dataset, please cite it."
+title: "Ariadne: Low-Cost Self-Diagnosing Navigation for GNSS-Denied Drone Flight"
+type: dataset
+authors:
+  - family-names: "Pepliński"
+    given-names: "Filip"
+    affiliation: "ALO przy PJATK, Warsaw, Poland"
+contributors:
+  - family-names: "Pepliński"
+    given-names: "Szymon P."
+    role: "advisor"
+license: "MIT"
+license-url: "https://opensource.org/licenses/MIT"
+keywords: [optical flow, EKF3, ArduPilot, GNSS-denied navigation, drone, dataset]
+abstract: "Flight dataset and analysis code for measuring drift and self-diagnosis of optical-flow navigation without GNSS on a small quadcopter. Data files are CC BY 4.0, code is MIT."

@@ -1,0 +1,68 @@
+### log_40_2026-9-20-16-23-06.bin
+SRC2 window 154.4-248.2 s (94 s); GNSS turn 50 s after the switch, max distance 43.4 m
+   GNSS path outbound 46.2 m / return 48.0 m; estimator outbound 43.6 / return 42.6
+   path ratio: outbound 0.944, return 0.887, total 0.915
+   estimator drift vs GNSS: 15 s 0.11 m, 30 s 1.10 m, 60 s 2.49 m, end 2.51 m
+   OF.Qual min/med 255/255; RFND med 3.01 max 3.28 m; sat 20-23, HDOP 0.55-0.62
+SRC2 window 473.3-555.5 s (82 s); GNSS turn 38 s after the switch, max distance 41.3 m
+   GNSS path outbound 41.9 m / return 50.9 m; estimator outbound 41.5 / return 43.7
+   path ratio: outbound 0.991, return 0.859, total 0.918
+   estimator drift vs GNSS: 15 s 1.33 m, 30 s 0.60 m, 60 s 2.41 m, end 6.80 m
+   OF.Qual min/med 255/255; RFND med 3.03 max 3.42 m; sat 21-24, HDOP 0.56-0.66
+SRC2 window 742.5-854.8 s (112 s); GNSS turn 61 s after the switch, max distance 45.0 m
+   GNSS path outbound 48.9 m / return 45.9 m; estimator outbound 45.7 / return 43.9
+   path ratio: outbound 0.936, return 0.956, total 0.945
+   estimator drift vs GNSS: 15 s 0.80 m, 30 s 1.45 m, 60 s 4.57 m, end 2.19 m
+   OF.Qual min/med 255/255; RFND med 3.00 max 3.44 m; sat 24-25, HDOP 0.52-0.57
+disarm 347 s: CTUN.Alt 1.92 m, RFND 0.14 m -> reference drift +1.78 m
+disarm 651 s: CTUN.Alt 2.79 m, RFND 0.14 m -> reference drift +2.65 m
+disarm 951 s: CTUN.Alt 3.83 m, RFND 0.15 m -> reference drift +3.68 m
+modes: 29s:3 -> 37s:5 -> 61s:5 -> 80s:3 -> 331s:5 -> 346s:9 -> 359s:5 -> 362s:5 -> 384s:3 -> 636s:5 -> 649s:9 -> 654s:5 -> 661s:5 -> 677s:3 -> 932s:5 -> 950s:9
+### log_41_2026-9-20-16-41-46.bin
+SRC2 window 231.7-369.4 s (138 s); GNSS turn 63 s after the switch, max distance 42.4 m
+   GNSS path outbound 43.2 m / return 48.4 m; estimator outbound 41.5 / return 43.6
+   path ratio: outbound 0.961, return 0.900, total 0.929
+   estimator drift vs GNSS: 15 s 0.97 m, 30 s 1.12 m, 60 s 2.08 m, end 3.56 m
+   OF.Qual min/med 255/255; RFND med 3.01 max 3.46 m; sat 26-27, HDOP 0.50-0.51
+SRC2 window 710.7-859.9 s (149 s); GNSS turn 80 s after the switch, max distance 42.4 m
+   GNSS path outbound 45.2 m / return 55.7 m; estimator outbound 44.1 / return 43.9
+   path ratio: outbound 0.975, return 0.788, total 0.871
+   estimator drift vs GNSS: 15 s 0.15 m, 30 s 1.23 m, 60 s 2.94 m, end 10.87 m
+   OF.Qual min/med 255/255; RFND med 3.00 max 3.67 m; sat 24-26, HDOP 0.51-0.56
+disarm 537 s: CTUN.Alt 1.80 m, RFND 0.14 m -> reference drift +1.66 m
+disarm 963 s: CTUN.Alt 3.39 m, RFND 0.09 m -> reference drift +3.30 m
+modes: 59s:5 -> 59s:5 -> 81s:3 -> 508s:5 -> 536s:9 -> 553s:5 -> 559s:5 -> 581s:3 -> 952s:9 -> 964s:5 -> 964s:9
+### log_42_2026-9-20-16-59-12.bin
+SRC2 window 198.0-345.4 s (147 s); GNSS turn 79 s after the switch, max distance 42.0 m
+   GNSS path outbound 44.8 m / return 45.6 m; estimator outbound 43.4 / return 43.1
+   path ratio: outbound 0.967, return 0.945, total 0.956
+   estimator drift vs GNSS: 15 s 0.27 m, 30 s 1.45 m, 60 s 2.28 m, end 2.90 m
+   OF.Qual min/med 255/255; RFND med 3.01 max 3.25 m; sat 27-29, HDOP 0.47-0.50
+SRC2 window 603.0-753.6 s (151 s); GNSS turn 84 s after the switch, max distance 43.9 m
+   GNSS path outbound 48.1 m / return 47.1 m; estimator outbound 45.7 / return 42.6
+   path ratio: outbound 0.949, return 0.903, total 0.926
+   estimator drift vs GNSS: 15 s 0.60 m, 30 s 1.18 m, 60 s 3.44 m, end 1.85 m
+   OF.Qual min/med 255/255; RFND med 3.03 max 3.36 m; sat 27-29, HDOP 0.47-0.51
+disarm 441 s: CTUN.Alt 0.73 m, RFND 0.14 m -> reference drift +0.59 m
+disarm 838 s: CTUN.Alt 1.34 m, RFND 0.14 m -> reference drift +1.20 m
+modes: 29s:5 -> 49s:5 -> 61s:3 -> 358s:5 -> 440s:9 -> 446s:5 -> 459s:5 -> 472s:3 -> 768s:5 -> 837s:9
+### log_43_2026-9-20-17-14-20.bin
+SRC2 window 165.1-260.7 s (96 s); GNSS turn 51 s after the switch, max distance 49.1 m
+   GNSS path outbound 52.7 m / return 61.7 m; estimator outbound 45.5 / return 44.6
+   path ratio: outbound 0.864, return 0.723, total 0.788
+   estimator drift vs GNSS: 15 s 0.30 m, 30 s 3.06 m, 60 s 5.27 m, end 10.55 m
+   OF.Qual min/med 255/255; RFND med 3.03 max 3.96 m; sat 28-29, HDOP 0.48-0.49
+SRC2 window 373.4-475.3 s (102 s); GNSS turn 55 s after the switch, max distance 45.0 m
+   GNSS path outbound 48.6 m / return 59.4 m; estimator outbound 45.0 / return 45.9
+   path ratio: outbound 0.927, return 0.772, total 0.842
+   estimator drift vs GNSS: 15 s 0.31 m, 30 s 0.59 m, 60 s 2.17 m, end 11.20 m
+   OF.Qual min/med 255/255; RFND med 3.00 max 3.56 m; sat 29-30, HDOP 0.46-0.48
+SRC2 window 593.0-707.0 s (114 s); GNSS turn 48 s after the switch, max distance 46.7 m
+   GNSS path outbound 50.1 m / return 60.7 m; estimator outbound 45.3 / return 47.2
+   path ratio: outbound 0.904, return 0.779, total 0.835
+   estimator drift vs GNSS: 15 s 0.16 m, 30 s 2.90 m, 60 s 0.65 m, end 8.57 m
+   OF.Qual min/med 255/255; RFND med 3.02 max 3.50 m; sat 27-29, HDOP 0.47-0.51
+disarm 318 s: CTUN.Alt 1.50 m, RFND 0.14 m -> reference drift +1.36 m
+disarm 528 s: CTUN.Alt 2.47 m, RFND 0.14 m -> reference drift +2.33 m
+disarm 744 s: CTUN.Alt 3.30 m, RFND 0.14 m -> reference drift +3.16 m
+modes: 107s:5 -> 107s:5 -> 128s:3 -> 306s:5 -> 310s:9 -> 319s:5 -> 328s:5 -> 343s:3 -> 516s:5 -> 520s:9 -> 527s:5 -> 527s:9 -> 536s:5 -> 546s:5 -> 557s:3 -> 731s:5 -> 737s:9 -> 746s:5
