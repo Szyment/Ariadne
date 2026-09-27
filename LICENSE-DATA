@@ -1,0 +1,19 @@
+Dane pomiarowe i dokumentacja projektu Ariadne
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Copyright (c) 2026 Filip Pepliński
+
+Obejmuje: katalogi flight-logs/, sessions/, firmware/, hardware/, docs/,
+build-log/, missions/ oraz wszystkie pliki .md w korzeniu repozytorium.
+Kod źródłowy (analysis/, tools/, vision/, link/) jest objęty licencją MIT,
+patrz plik LICENSE.
+
+Pełny tekst licencji: https://creativecommons.org/licenses/by/4.0/legalcode
+Skrót: https://creativecommons.org/licenses/by/4.0/
+
+Warunek: przy każdym użyciu, kopiowaniu lub adaptacji podaj autora,
+źródło i informację o ewentualnych zmianach.
+
+WYŁĄCZENIE: klon repozytorium ArduPilota (katalog ardupilot/) NIE jest
+objęty tą licencją — podlega licencji GPLv3 swojego projektu i nie stanowi
+części tego zbioru danych.

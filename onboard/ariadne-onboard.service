@@ -1,0 +1,14 @@
+# Repository name of the unit; on the Pi the currently installed unit is ariadne-pokladowy.service with /usr/local/bin/pokladowy.py. On the next deployment install this file as ariadne-onboard.service and onboard.py.
+[Unit]
+Description=Ariadne onboard daemon: clock, recording from arming, SE shutdown switch
+After=ariadne-nagrywanie@0.service ariadne-nagrywanie@1.service
+
+[Service]
+Type=simple
+ExecStart=/home/ariadne/venvs/mav/bin/python /usr/local/bin/pokladowy.py
+Restart=always
+RestartSec=5
+User=root
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,15 @@
+# Repository name of the unit; on the Pi the currently installed unit is ariadne-nagrywanie@.service with /usr/local/bin/nagrywaj.sh. On the next deployment install this file as ariadne-record@.service and record.sh.
+[Unit]
+Description=Ariadne continuous recording from camera %i
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/nagrywaj.sh %i
+Restart=on-failure
+RestartSec=2
+User=ariadne
+KillSignal=SIGINT
+TimeoutStopSec=10
+
+[Install]
+WantedBy=multi-user.target
