@@ -283,6 +283,12 @@ Two conclusions. To align the video with the Pixhawk log, use `mtime`, not the f
 
 The agreement of both cameras is a check in itself: for both sessions `kam0` and `kam1` gave the same start to the second, with a difference of one frame in the frame count.
 
+## Real-time clock and Wi-Fi (11 Oct 2026)
+
+Until 11 Oct the system clock was set only from GNSS time over MAVLink, so without GNSS (indoors) the recording directories and segment names carried a wrong time. A backup battery (Raspberry Pi RTC battery, ML2020, connector J5) now holds the clock across power cycles. Trickle charging is off by default and was enabled with `dtparam=rtc_bbat_vchg=3000000` in the `[all]` section of `/boot/firmware/config.txt`; `/sys/class/rtc/rtc0/charging_voltage` reads `3000000`. `util-linux-extra` installed for `hwclock`. Check after a one-minute power cut: `date` 19:01:06 local, correct. The GNSS time sync over MAVLink stays as the primary source whenever it is available.
+
+Home Wi-Fi added through NetworkManager (`nmcli dev wifi connect`, 2.4/5 GHz), address from DHCP; the Ethernet cable is no longer needed at home. In the field there is no Wi-Fi; the link is unchanged.
+
 ## To do
 
 - [ ] Raise the `SERIAL4` speed to 921600 if the MAVLink streams at 115200 turn out to be too slow

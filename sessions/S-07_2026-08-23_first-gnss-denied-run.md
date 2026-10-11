@@ -1,5 +1,7 @@
 # S-07: Session card, 23 Aug 2026
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 **Type:** GNSS-denied run + battery endurance test · **Platform:** 2 · **Firmware:** ArduCopter 4.7.0
 **Log:** `log_10_2026-8-23-12-54-18.bin` (27 MB) · **Ground telemetry:** `2026-08-23 12-56-16.tlog`
 **Configuration:** `ariadne_v2_23aug2026_1237.params`
@@ -31,11 +33,11 @@ Four GM1010 readings within a few tens of minutes under a similar sky:
 
 | Reading | Sensor orientation |
 |---|---|
-| 21 500 lx | near the ground |
-| 30 000 lx | at ground level |
-| 60 000 lx (6000 × 10) | aimed at the sun |
+| 231 000 lx (display 2150 X10 fc = 21 500 fc; photo IMG_9575, 12:52: 2144 X10 fc) | near the ground |
+| 323 000 lx (display 3000 X10 fc = 30 000 fc; from the notes of the day, no photograph) | at ground level |
+| 646 000 lx (display 6000 X10 fc = 60 000 fc; from the notes of the day, no photograph; beyond the 200 klx range of the instrument) | aimed at the sun |
 
-Solar elevation at 12:47 was 50.4°, upper bound for a cloudless sky 84 800 lx. All three readings fall below it.
+Solar elevation at 12:47 was 50.4°, horizontal illuminance for a cloudless sky 84 800 lx. The meter reads 2–3 times more with the dome in direct sun (annex D §8): the readings are instrument values, comparable within the campaign, not horizontal illuminance. Corrected 4 Oct 2026 (foot-candle mode, × 10.764) and 11 Oct 2026 (the X10 indicator on IMG_9575 is lit; the 4 Oct reading "no X10" was wrong, so the × 10 of the day stands).
 
 Until 23 Aug the protocol specified neither the sensor orientation nor the obligation to record the range multiplier, so the readings are not mutually comparable. Convention established 23 Aug: `protocol/ANNEX_D_illuminance_measurement.md`.
 

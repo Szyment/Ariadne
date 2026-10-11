@@ -1,5 +1,7 @@
 # S-10: 25 Aug 2026, crash in an automatic run
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 Logs: `log_14_2026-8-25-12-20-40.bin`, `log_15_2026-8-25-19-01-14.bin`, `log_16_2026-8-25-19-05-34.bin`.
 
 ## Conditions
@@ -7,7 +9,7 @@ Logs: `log_14_2026-8-25-12-20-40.bin`, `log_15_2026-8-25-19-01-14.bin`, `log_16_
 | | |
 |---|---|
 | Wind | 1.7 m/s, from **113°** (the reading recorded in the field as 293° was reversed by 180°, confirmed by the drift from the log) |
-| Illuminance | 326 lx |
+| Illuminance | 3510 lx |
 | Surface | grass |
 | Mission | `S-10_Drift1.plan`, altitude 3 m |
 | Target altitude | 2.65 m above the take-off point |

@@ -173,11 +173,21 @@ python3 analysis/degradation_detector.py data/ARIADNE_E1_*.csv \
 
 Thresholds: `--qual-min 150`, `--sv-max 0.5`, `--scatter-max 1.0`, `--rfnd-jump-max 0.5`, `--epos-max 0.3`, `--fi-max 1500`, `--error-m 5.0` (reference error relative to GNSS); `--window 1.0` sets the rolling window.
 
-Baseline from 11 runs of 12 Sep (bright and dusk down to 24 lx): `of_qual` 255 throughout, `SV` ≤ 0.05, scatter ≤ 0.78 rad/s (peaks when starting to move), rangefinder jumps ≤ 0.07 m. The default thresholds (150 / 0.5 / 1.0 / 0.5) lie above this baseline, hence 0 false alarms. E1-005 exceeds 5 m of error with all indicators within norms: the first recorded case of silent drift (with the caveat K1: part of it is GNSS wander). Thresholds to be revised after the first runs with real degradation (below 24 lx, different surface).
+Baseline from 11 runs of 12 Sep (bright and dusk down to 258 lx): `of_qual` 255 throughout, `SV` ≤ 0.05, scatter ≤ 0.78 rad/s (peaks when starting to move), rangefinder jumps ≤ 0.07 m. The default thresholds (150 / 0.5 / 1.0 / 0.5) lie above this baseline, hence 0 false alarms. E1-005 exceeds 5 m of error with all indicators within norms: the first recorded case of silent drift (with the caveat K1: part of it is GNSS wander). Thresholds to be revised after the first runs with real degradation (below 258 lx, different surface).
 
 **Wind indicator (12 Sep, evening).** Airframe tilt in hover (median `hypot(roll, pitch)` at ground-relative flow < 0.08 rad/s) over 11 runs: without wind 0.79–1.00°, in wind of 1.2–2.1 m/s 1.07–2.47°. Trim offset of ~0.8° subtracted. The ordering within the windy runs does not agree with the block anemometer, so calibration requires wind per flight. In the detector as `w_wind` (column `wind_tilt_deg`, green line on panel 3), without a threshold.
 
 **v0.2 (12 Sep evening).** `cut_runs.py` v0.2 adds to the CSV: `gpa_hacc/sacc` (GNSS accuracy per sample, the answer to K1 at the data level), `xkf3_IVN/IVE`, `xkf4_TS`, `xkf5_FIX/FIY/AFI` (optical-flow measurement residuals), `xkf5_HAGL/RI`, `xkf5_eVel/ePos` (estimator uncertainty), `vibe_x/y/z`. All 12 CSVs of 12 Sep recomputed. Detector v0.2 received two new voting indicators: `w_epos` (threshold 0.3; baseline ≤ 0.11) and `w_fi` = |FIX|+|FIY| mean over 1 s (threshold 1500; baseline ≤ 870). Observation: `ePos` grows ~3× after the GNSS cut-off (0.012 → 0.035) in every run, that is, the EKF itself signals lower confidence, though far from the threshold. Still 0 false alarms on 11 runs.
+
+**v0.3 (4 Oct 2026).** `cut_runs.py` v0.3 adds `imu_accX/Y/Z`, `imu_gyrX/Y/Z` (IMU instance 0, nearest sample), `xkf2_AX/AY/AZ` (accelerometer bias states, cm/s² as logged) and `xkf1_VN/VE/VD` (EKF velocity); `--names` accepts `name:cell` per run and `skip` for a window to leave out. All 56 CSVs (49 runs, 6 calibration, 1 test) were recomputed with unchanged file names; the first 43 columns are identical to v0.2.
+
+**Detector v0.2 after 60 runs: 0 hits, 2 early warnings, 23 misses (S-25 added seven: grass plain, field ×3, 1.5 m ×3).** Every miss is a scale error of the flow-derived velocity (field, 1.5 m, downwind leg) with image quality 255 and all residuals nominal. In source set 2 such an error is unobservable by construction: flow is the only horizontal velocity measurement and the terrain state is frozen, so the velocity state follows k·v and the innovation stays at zero. The six indicators of v0.2 measure noise, consistency and image quality, none of them scale. Mechanism, literature and the two candidate observables tested on 4 Oct (IMU Δv against EKF Δv over acceleration phases, `scale_observable.py`, correlation 0.34–0.42 with the reference; accelerometer-bias sawtooth, amplitude 0.001 m/s², unusable) are in `docs/research/SCALE_ERROR_HYPOTHESES.md`. Proposed next step: a scale self-test manoeuvre at the start of each run (three accelerate-and-stop cycles after the switch) to give the IMU-based observable enough excitation.
+
+## scale_observable.py (4 Oct 2026)
+
+Per run and per acceleration phase (EKF horizontal speed changing by more than `--a-min` 0.3 m/s² for at least 0.8 s): the velocity change from the IMU (specific force rotated with the EKF attitude, gravity removed, trapezoidal integral) against the change of `xkf1_VN/VE`; `r_pair` = Σ|Δv_ekf| / Σ|Δv_imu| over all phases of the run (a constant accelerometer bias cancels between acceleration and deceleration). The reference path ratio (estimator / GNSS) is printed for validation only. Output `analysis/results/scale_observable.csv`. Status: at the current excitation (one acceleration and one deceleration per leg) the observable is at the noise level (gravity leakage from a 1° attitude error is 17 % of a 1.5 m/s velocity change); see the research note.
+
+**Self-test runs, 11 Oct 2026 (S-25, E1-050…053 grass, E1-055…056 field; cell suffix `-SELFTEST`).** The outbound leg split into four 10 m segments with 3 s stops gives 10–13 phases per run. `r_pair` on the four grass runs: 0.944, 0.928, 1.003, 0.943 against reference 0.956, 0.960, 0.929, 0.957; field 0.974, 0.912 against 0.903, 0.885; rms error 0.05 over the 11 runs of the day, correlation 0.87 (0.52 over all 60 runs). The per-phase estimates are asymmetric in every run (acceleration 1.00–1.13, braking 0.83–0.91: Δv_IMU 1.2–1.3 m/s when accelerating, 1.6–1.7 m/s when braking, for the same change in the estimator), which is a gravity leak through an attitude error that follows the direction of acceleration; a joint fit of scale and a constant along-track bias does not reduce the error. The error is per run, not per phase, so more phases do not average it down. The observable separates the 1.5 m regime (0.73–0.81 read, 0.81–0.84 reference) from 3 m grass, and nothing finer. The campaign CSV `scale_observable.csv` covers 60 runs.
 
 ### CSV columns (v0.2)
 
@@ -199,10 +209,22 @@ Estimator error relative to GNSS as a function of time since the switch to sourc
 python3 analysis/error_vs_time.py data/ARIADNE_E1_*.csv --csv analysis/results/error_vs_time.csv --plot analysis/results/error_vs_time.png
 ```
 
+## apriltag_detect.py (11 Oct 2026)
+
+Detects tag36h11 markers in the stitched MP4 of one camera (`pupil-apriltags`, OpenCV), every N-th frame, and writes one row per detection: time in the video, tag ID, decision margin, side length and centre in pixels, camera position in the tag frame from the pose estimate (`--tag-size` in metres, pinhole intrinsics from `--hfov` or `--fx/--fy/--cx/--cy`). The pose of a single tag viewed face-on is ambiguous (two minima), so distances between tags are taken from the image: pixel distance between centres divided by the tag side in pixels, times the tag size. This ratio is independent of the intrinsics and of the height.
+
+```
+python3 analysis/apriltag_detect.py movies/kam0_20261011_192145.mp4 --tag-size 0.16 --step 3 --csv analysis/results/apriltag/kam0_20261011_192145.csv
+```
+
+**Indoor test, 11 Oct 2026 (home, no arming, no log; rangefinder read in MAVLink Inspector 1.50 ± 0.03 m).** Three A4 tags (ID 12, 13, 14; black square 16 cm, 20 cm boards, 20 cm apart, centres 0.40 m) on the floor, aircraft held by hand at 1.5 m; passes over the centre and 0.5 m to each side (sesja_052, 19:00) and hovers (sesja_054, 19:21). Results on the hover recording, every third frame: kam0 221 frames with a tag, 62 with all three, side 138 ± 3 px, height from the tag size 1.49 m at an assumed field of view of 54° (fx 1272 px); spacing from the image 0.403 m for neighbours (n = 269, 0.396–0.428) and 0.801 m across (n = 66), against 0.40 / 0.80 m laid out. kam1 (NoIR, larger lens): 207 frames, side 154 px, spacing 0.403 / 0.836 m; its focal length is about 1.24× that of kam0 (field of view about 44°) and the second spacing shows lens distortion at the edge of the frame. On the pass recording the spacing read 0.41 / 0.83 m (motion blur). Decision margin 55–63 (detector threshold about 20). Conclusion: a 16 cm tag at 1.5 m (136 px) is detected reliably; the row geometry is recovered from the image to 1 %; kam0 is the camera for the marker work. A 30 cm tag at 3 m gives 127 px, the same regime. Absolute camera position needs an intrinsic calibration (not done); relative scale does not.
+
 ## Files
 
 | File | Title |
 |---|---|
+| [`apriltag_detect.py`](apriltag_detect.py) |  |
+| [`apriltag_video.py`](apriltag_video.py) |  |
 | [`balance.py`](balance.py) |  |
 | [`cut_runs.py`](cut_runs.py) |  |
 | [`degradation_detector.py`](degradation_detector.py) |  |
@@ -211,6 +233,7 @@ python3 analysis/error_vs_time.py data/ARIADNE_E1_*.csv --csv analysis/results/e
 | [`error_vs_time.py`](error_vs_time.py) |  |
 | [`flight_times.py`](flight_times.py) |  |
 | [`flow_orientation.py`](flow_orientation.py) |  |
+| [`scale_observable.py`](scale_observable.py) |  |
 | [`session_extract.py`](session_extract.py) |  |
 | [`session_weather.py`](session_weather.py) |  |
 | [`stitch_recording.sh`](stitch_recording.sh) |  |

@@ -1,5 +1,7 @@
 # S-15: 29 Aug 2026, first Dryf3 run in the terrain frame
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 Log: `log_24_2026-8-29-12-09-54.bin` · flight 12:09–12:13 · onboard camera recording: `movies/kam0_20260829_111535.mp4` and `kam1_20260829_111535.mp4` from 16:50 to 20:04 (recording start 11:53:04, measured from the segment mtime)
 
 ## Conditions
@@ -7,7 +9,7 @@ Log: `log_24_2026-8-29-12-09-54.bin` · flight 12:09–12:13 · onboard camera r
 | | |
 |---|---|
 | Wind | 3.5 m/s, gusts 4, from 279° |
-| Illuminance | 3000 lx, up to 30 000 lx in bright spells, clouds after rain |
+| Illuminance | 51 000 lx (4739 fc, IMG_9742) in bright spells, clouds after rain |
 | Temperature | 23.4 °C at the ground |
 | Surface | field, the same as in the previous sessions |
 | Plan | `S-15_Drift3.plan`, take-off 50.9140935/19.0866297, turn point 40 m on azimuth 99° |

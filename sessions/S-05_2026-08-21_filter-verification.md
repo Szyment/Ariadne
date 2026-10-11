@@ -1,5 +1,7 @@
 # S-05: Session card, 21 Aug 2026
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 **Type:** harmonic notch filter verification flight · **Platform:** 2 · **Firmware:** ArduCopter 4.7.0
 **Log:** `log_8_2026-8-21-19-56-38.bin` (124 MB) · **Ground telemetry:** `2026-08-21 19-56-56.tlog`
 **Configuration:** `ariadne_v2_20aug2026_2020.params` (harmonic notch filter, `INS_GYRO_FILTER = 40`)
@@ -15,7 +17,7 @@
 | Pilot in command | Filip Pepliński |
 | Observer (VLOS role) and telemetry operator | Szymon P. Pepliński |
 | Wind (GM816 anemometer) | **1–2 m/s** |
-| Illuminance (GM1010) | **58 lx at the start → 21 lx at the end of the session**, i.e. within about nine minutes |
+| Illuminance (GM1010) | **624 lx at the start → 226 lx at the end of the session**, i.e. within about nine minutes |
 | Session time (from GPS time in the log) | **19:48:01 – 19:56:24** |
 | Air and pack temperature, Kp index | [TO BE COMPLETED] |
 | DroneTower check-in | [TO BE COMPLETED] |
@@ -96,14 +98,14 @@ The session took place at dusk and yielded the first measurement in the band whe
 
 | Session | Time | Illuminance |
 |---|---|---|
-| 20 Aug | 16:45 → 16:54 | 2450 lx |
-| 18 Aug | 16:21 → 18:46 | 1330 lx |
-| 19 Aug | 19:25 → 19:33 | 355 lx |
-| **21 Aug** | **19:48 → 19:56** | **58 → 21 lx** |
+| 20 Aug | 16:45 → 16:54 | 26 400 lx |
+| 18 Aug | 16:21 → 18:46 | 14 300 lx |
+| 19 Aug | 19:25 → 19:33 | 3820 lx |
+| **21 Aug** | **19:48 → 19:56** | **624 → 226 lx** |
 
-The values of 58 and 21 lx fall within the range that protocol §2.1.1 describes as "dusk, 10–100 lx". The session thus gave a fourth measurement point on the LUX axis, spanning four orders of magnitude.
+The values of 624 and 226 lx (GM1010 readings 58 and 21 fc, annex D §8) lie between the bands that protocol §2.1.1 describes as "dusk, 10–100 lx" and "overcast, 1 000–10 000 lx". The session thus gave a fourth measurement point on the LUX axis, spanning four orders of magnitude.
 
-**Operational finding of major importance for E1 planning.** Illuminance fell from 58 to 21 lx, i.e. by **64% within nine minutes** (19:48–19:57, confirmed by GPS time from the log). Converted to a single run lasting a minute and a half, this gives a drop of the order of 11%. Protocol §8 requires rejecting a run in which the illuminance changed by more than 30%. This means that:
+**Operational finding of major importance for E1 planning.** Illuminance fell from 624 to 226 lx, i.e. by **64% within nine minutes** (19:48–19:57, confirmed by GPS time from the log). Converted to a single run lasting a minute and a half, this gives a drop of the order of 11%. Protocol §8 requires rejecting a run in which the illuminance changed by more than 30%. This means that:
 
 - a single run at dusk fits within the criterion, but with a small margin;
 - **a matrix cell at a given illuminance holds for two, at most three runs**, after which the conditions pass into the next cell;

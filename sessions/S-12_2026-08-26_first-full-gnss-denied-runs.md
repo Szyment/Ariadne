@@ -1,5 +1,7 @@
 # S-12: 26 Aug 2026, two full GNSS-denied runs
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 Log: `log_19_2026-8-26-16-45-12.bin` · Ground telemetry: `2026-08-26 16-46-37.tlog` · Parameters: `ariadne_v2_26aug2026_1756.params`
 
 ## Conditions
@@ -8,8 +10,8 @@ Log: `log_19_2026-8-26-16-45-12.bin` · Ground telemetry: `2026-08-26 16-46-37.t
 |---|---|
 | Wind | 3.0 m/s, gusts up to 4.0 m/s, from 80° (anemometer) |
 | Air temperature | 24 °C |
-| Illuminance, sensor horizontal facing up | 6500 lx |
-| Illuminance, sensor perpendicular to the sun | 27 700 lx |
+| Illuminance, sensor towards the sky (after 16:18, cloudless) | 69 800 lx (6484 fc, IMG_9674) |
+| Illuminance, sensor aimed directly at the sun | 299 000 lx (display 2777 X10 fc = 27 770 fc, IMG_9675; beyond the 200 klx range of the instrument, annex D §8) |
 | Surface | field, low grass, mixed dry and green, sandy bald patches and clods of earth; the same as in the previous sessions |
 | Mission | `S-12_Drift2.plan`, leg 40 m, azimuth 80°, altitude 3.5 m |
 

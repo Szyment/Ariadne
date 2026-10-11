@@ -1,5 +1,7 @@
 # S-13: 28 Aug 2026, onboard computer integration and hover throttle
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 Parameters: `ariadne_v2_28aug2026_1143.params` · Flight log: `log_20_2026-8-28-11-57-20.bin`
 
 ## Conditions
@@ -7,7 +9,7 @@ Parameters: `ariadne_v2_28aug2026_1143.params` · Flight log: `log_20_2026-8-28-
 | | |
 |---|---|
 | Wind | 3 m/s on average, gusts above 4 m/s |
-| Illuminance | 14 000 lx |
+| Illuminance | 151 000 lx (display 1404 X10 fc = 14 040 fc, IMG_9709; direct sun on the dome, annex D §8) |
 | Air temperature | 25 °C |
 | Surface | field, the same as in the previous sessions |
 

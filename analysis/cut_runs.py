@@ -10,6 +10,7 @@ Usage:
 Successive SRC2 windows longer than 20 s receive successive names from --names.
 Columns: t_log[s], phase (before/flow_only/after), EKF position (POS), GNSS (GPS, GPA), OF, RFND, CTUN, ATT, XKF3/XKF4/XKF5 (innovations, including flow FIX/FIY, own error estimate eVel/ePos), VIBE, RCIN ch7, mode.
 v0.2 (12 Sep, evening): added GPA.HAcc/SAcc, XKF3.IVN/IVE, XKF4.TS, XKF5.FIX/FIY/AFI/HAGL/RI/eVel/ePos, VIBE.VibeX/Y/Z.
+v0.3 (4 Oct): added IMU.AccX/AccY/AccZ, IMU.GyrX/GyrY/GyrZ (instance 0) and XKF2.AX/AY/AZ (accelerometer bias states), for the scale-error observable; a name 'skip' in --names leaves that window out; XKF1.VN/VE/VD added as well.
 """
 import sys, csv, argparse, bisect, os
 from pymavlink import mavutil
@@ -17,14 +18,15 @@ ap=argparse.ArgumentParser(); ap.add_argument('log'); ap.add_argument('--names',
 ap.add_argument('--date',required=True); ap.add_argument('--out',default='.'); ap.add_argument('--margin',type=float,default=25.0); ap.add_argument('--min-window',type=float,default=20.0)
 a=ap.parse_args(); names=a.names.split(',')
 m=mavutil.mavlink_connection(a.log)
-S={k:[] for k in ['POS','GPS','GPA','OF','RFND','CTUN','ATT','XKF3','XKF4','XKF5','VIBE','RCIN','MODE']}; MSG=[]
+S={k:[] for k in ['POS','GPS','GPA','OF','RFND','CTUN','ATT','XKF1','XKF2','XKF3','XKF4','XKF5','VIBE','RCIN','MODE','IMU']}; MSG=[]
 while True:
     x=m.recv_match(type=list(S)+['MSG'])
     if x is None: break
     k=x.get_type(); t=x.TimeUS/1e6
     if k=='MSG': MSG.append((t,x.Message)); continue
     if k=='GPS' and getattr(x,'I',0)!=0: continue
-    if k in ('XKF3','XKF4','XKF5') and getattr(x,'C',0)!=0: continue
+    if k in ('XKF1','XKF2','XKF3','XKF4','XKF5') and getattr(x,'C',0)!=0: continue
+    if k=='IMU' and getattr(x,'I',0)!=0: continue
     if k=='GPA' and getattr(x,'I',0)!=0: continue
     if k=='VIBE' and getattr(x,'IMU',0)!=0: continue
     S[k].append((t,x))
@@ -41,12 +43,17 @@ def near(k,t):
     i=bisect.bisect_left(ts[k],t); i=min(max(i-1,0),len(S[k])-1); return S[k][i][1] if S[k] else None
 os.makedirs(a.out,exist_ok=True)
 for (t0,t1),name in zip(win,names):
-    tag=name if name.startswith('E1') else 'KAL'
-    fn=os.path.join(a.out,f"ARIADNE_{tag.replace('E1-','E1_')}_{a.date}_{a.cell}.csv") if tag!='KAL' else os.path.join(a.out,f"ARIADNE_KAL_{a.date}_{os.path.basename(a.log).split('_')[1]}.csv")
+    if name=='skip': continue
+    cell=a.cell
+    if ':' in name: name,cell=name.split(':',1)   # per-run cell override, v0.3
+    lognum=os.path.basename(a.log).split('_')[1]
+    if name.startswith('E1'): fn=os.path.join(a.out,f"ARIADNE_{name.replace('E1-','E1_')}_{a.date}_{cell}.csv")
+    elif name.startswith('TEST'): fn=os.path.join(a.out,f"ARIADNE_TEST_{a.date}_{lognum}_{cell}.csv")
+    else: fn=os.path.join(a.out,f"ARIADNE_KAL_{a.date}_{lognum}.csv")
     rows=[]
     for t,p in S['POS']:
         if t0-a.margin<=t<=t1+a.margin:
-            g=near('GPS',t); o=near('OF',t); r=near('RFND',t); c=near('CTUN',t); at=near('ATT',t); k4=near('XKF4',t); k3=near('XKF3',t); k5=near('XKF5',t); ga=near('GPA',t); vb=near('VIBE',t); rc=near('RCIN',t); md=near('MODE',t)
+            g=near('GPS',t); o=near('OF',t); k1=near('XKF1',t); k2=near('XKF2',t); im=near('IMU',t); r=near('RFND',t); c=near('CTUN',t); at=near('ATT',t); k4=near('XKF4',t); k3=near('XKF3',t); k5=near('XKF5',t); ga=near('GPA',t); vb=near('VIBE',t); rc=near('RCIN',t); md=near('MODE',t)
             phase='before' if t<t0 else ('flow_only' if t<=t1 else 'after')
             rows.append([round(t,3),phase,round(t-t0,3),p.Lat,p.Lng,round(p.Alt,3),
                 g.Lat,g.Lng,g.NSats,g.HDop,round(g.Spd,3),
@@ -56,7 +63,9 @@ for (t0,t1),name in zip(win,names):
                 getattr(rc,'C7',''),md.Mode,
                 round(ga.HAcc,2),round(ga.SAcc,2),round(k3.IVN,3),round(k3.IVE,3),k4.TS if hasattr(k4,'TS') else '',
                 k5.FIX,k5.FIY,k5.AFI,round(k5.HAGL,2),round(k5.RI,3),round(k5.eVel,4),round(k5.ePos,4),
-                round(vb.VibeX,2),round(vb.VibeY,2),round(vb.VibeZ,2)])
+                round(vb.VibeX,2),round(vb.VibeY,2),round(vb.VibeZ,2),
+                round(im.AccX,4),round(im.AccY,4),round(im.AccZ,4),round(im.GyrX,5),round(im.GyrY,5),round(im.GyrZ,5),
+                k2.AX,k2.AY,k2.AZ,round(k1.VN,3),round(k1.VE,3),round(k1.VD,3)])
     with open(fn,'w',newline='') as f:
-        w=csv.writer(f); w.writerow(['t_log_s','phase','t_since_src2_s','ekf_lat','ekf_lon','ekf_alt','gps_lat','gps_lon','gps_nsats','gps_hdop','gps_spd','of_qual','of_flowX','of_flowY','of_bodyX','of_bodyY','rfnd_dist','ctun_alt','roll','pitch','yaw','xkf4_SV','xkf4_SP','xkf4_SH','xkf4_SM','xkf4_SS','rc7','mode','gpa_hacc','gpa_sacc','xkf3_IVN','xkf3_IVE','xkf4_TS','xkf5_FIX','xkf5_FIY','xkf5_AFI','xkf5_HAGL','xkf5_RI','xkf5_eVel','xkf5_ePos','vibe_x','vibe_y','vibe_z']); w.writerows(rows)
+        w=csv.writer(f); w.writerow(['t_log_s','phase','t_since_src2_s','ekf_lat','ekf_lon','ekf_alt','gps_lat','gps_lon','gps_nsats','gps_hdop','gps_spd','of_qual','of_flowX','of_flowY','of_bodyX','of_bodyY','rfnd_dist','ctun_alt','roll','pitch','yaw','xkf4_SV','xkf4_SP','xkf4_SH','xkf4_SM','xkf4_SS','rc7','mode','gpa_hacc','gpa_sacc','xkf3_IVN','xkf3_IVE','xkf4_TS','xkf5_FIX','xkf5_FIY','xkf5_AFI','xkf5_HAGL','xkf5_RI','xkf5_eVel','xkf5_ePos','vibe_x','vibe_y','vibe_z','imu_accX','imu_accY','imu_accZ','imu_gyrX','imu_gyrY','imu_gyrZ','xkf2_AX','xkf2_AY','xkf2_AZ','xkf1_VN','xkf1_VE','xkf1_VD']); w.writerows(rows)
     print(f"{name}: window {t0:.1f}-{t1:.1f} s, {len(rows)} rows -> {fn}")

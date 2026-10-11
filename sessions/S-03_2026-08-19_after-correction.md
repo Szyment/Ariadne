@@ -1,5 +1,7 @@
 # S-03: Session card, 19 Aug 2026
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 **Type:** flights after the motor mount correction · **Platform:** 2 · **Firmware:** ArduCopter 4.7.0
 **Log:** `log_6_2026-8-19-19-33-42.bin` · **Parameter snapshot:** none from this session
 **In the E1–E3 dataset:** no (tuning session)
@@ -14,7 +16,7 @@
 | Pilot in command | Filip Pepliński |
 | Observer (VLOS role) and telemetry operator | Szymon P. Pepliński |
 | Wind (GM816 anemometer) | 2–3 m/s. Proxy from the log: hover tilt 1.47°, the lowest of the three sessions |
-| Illuminance (GM1010) | 355 lx, consistent with the time of day (session 19:25 – 19:33) |
+| Illuminance (GM1010) | 3820 lx, consistent with the time of day (session 19:25 – 19:33) |
 | Air and pack temperature, Kp index | [TO BE COMPLETED] |
 | Surface | [TO BE COMPLETED] |
 | DroneTower check-in | yes, done |

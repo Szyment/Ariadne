@@ -38,7 +38,7 @@ The work will be read by an international jury (EUCYS, ISEF) and by a reviewer w
 | surface | SURF1 grass, SURF2 ploughed field |
 | grass, meadow |  |
 | ploughed field |  |
-| illuminance | lx, Benetech GM1010 |
+| illuminance | lx; Benetech GM1010 read in foot-candles, converted × 10.764 (annex D §8) |
 | full daylight / overcast / dusk | LUX1 / LUX2 / LUXd |
 | altitude above ground (AGL) | from the rangefinder |
 | terrain frame | mission altitude relative to the rangefinder |

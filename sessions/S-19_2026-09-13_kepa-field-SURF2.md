@@ -1,5 +1,7 @@
 # S-19: 13 Sep 2026, the same meadow, SURF2 cell (ploughed field), two directions relative to the wind
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 Logs: `log_33_2026-9-13-12-22-06.bin` (pack 1, flights 1–3) · `log_34_2026-9-13-12-40-38.bin` (pack 2, flights 4–6). Configuration: `ariadne_v2_13sep2026_1100.params` (the only change relative to 12 Sep: `FENCE_RADIUS` 70 → 90, the geofence does not affect the estimator, §0 preserved). Photos and screenshots: `build-log/photos/2026-09-13/session-1-day/`. DroneTower check-in at the take-off point (`IMG_0341.PNG` forecast: surface wind 2.7 m/s from 190°, gusts 5.3, 16.1 °C, 1020.5 hPa, cloud cover 1/8).
 
 ## Site
@@ -12,18 +14,18 @@ Two plans, both: home → A (30 s, RC7 Mid after 20 s) → B (3 s) → A (30 s, 
 
 ## Conditions (measurements per flight, between flights)
 
-| Time | After flight | Lux GM1010 | Wind GM816 [m/s] | Temp. GM816 | Infrared thermometer | Notes |
+| Time | After flight | Illuminance [lx] (GM1010) | Wind GM816 [m/s] | Temp. GM816 | Infrared thermometer | Notes |
 |---|---|---|---|---|---|---|
-| 12:03–12:06 | before 1 | 8323, 8531, 8676 | 3.3 / 4.1 | 21.9 / 21.8 °C | soil 23.5 °C (avg 24.0) | DNG photos |
-| 12:12–12:13 | 1 (cal.) | 19 790, 20 550 | 2.4 / 2.5 | 28.6 / 27.7 °C | — | sun through cirrus |
-| 12:16–12:17 | 2 | 17 740, 15 490 | 2.9 / 3.7 / 4.0 / 3.1 | 28.7 / 29.4 / 29.4 / 27.3 °C (in the sun) | — | |
-| 12:21–12:23 | 3 | 5771, 5194 | 1.6 / 2.1 / 2.9 | 28.3 / 27.2 / 27.0 °C | soil 13.6 °C (avg 13.7); pack 1 after 3 flights 17.7 °C (avg 16.5) / 18.0 °C (avg 16.8); pack 2 before flights 15.9 °C (avg 16.9) | full sun; pack change |
-| 12:24 | before 4 | 6725 | 2.3 / 4.0 / 4.1 / 3.3 | | | |
-| 12:30 | 4 | 5119, 5118, 4900 | 2.3 / 3.2 / 2.4 | | | |
-| 12:35 | 5 | 7145, 7524 | 3.9 / 3.7 / 4.2 / 3.8 | 24.2 / 24.2 / 23.9 / 23.8 °C | | |
-| 12:39–12:41 | 6 | 6573, 6914, 8281 | 3.2 / 4.1 | 27.7 / 25.1 °C | pack 2 after 3 flights 27.0 °C (avg 26.1) | |
+| 12:03–12:06 | before 1 | 89 600, 91 800, 93 400 | 3.3 / 4.1 | 21.9 / 21.8 °C | soil 23.5 °C (avg 24.0) | DNG photos |
+| 12:12–12:13 | 1 (cal.) | 213 000, 221 000 (1979, 2055 X10 fc; IMG_0356, 0357) | 2.4 / 2.5 | 28.6 / 27.7 °C | — | sun through cirrus |
+| 12:16–12:17 | 2 | 191 000, 167 000 (1774, 1549 X10 fc; IMG_0360, 0361) | 2.9 / 3.7 / 4.0 / 3.1 | 28.7 / 29.4 / 29.4 / 27.3 °C (in the sun) | — | |
+| 12:21–12:23 | 3 | 62 100, 55 900 | 1.6 / 2.1 / 2.9 | 28.3 / 27.2 / 27.0 °C | soil 13.6 °C (avg 13.7); pack 1 after 3 flights 17.7 °C (avg 16.5) / 18.0 °C (avg 16.8); pack 2 before flights 15.9 °C (avg 16.9) | full sun; pack change |
+| 12:24 | before 4 | 72 400 | 2.3 / 4.0 / 4.1 / 3.3 | | | |
+| 12:30 | 4 | 55 100, 55 100, 52 700 | 2.3 / 3.2 / 2.4 | | | |
+| 12:35 | 5 | 76 900, 81 000 | 3.9 / 3.7 / 4.2 / 3.8 | 24.2 / 24.2 / 23.9 / 23.8 °C | | |
+| 12:39–12:41 | 6 | 70 800, 74 400, 89 100 | 3.2 / 4.1 | 27.7 / 25.1 °C | pack 2 after 3 flights 27.0 °C (avg 26.1) | |
 
-Lux by time: 8323, 8531, 8676 → 19 790, 20 550 → 17 740, 15 490 → 5771, 5194 → 6725 → 5119, 5118, 4900 → 7145, 7524 → 6573, 6914, 8281 lx. Range 4.9–20.6 klx, variable cloud cover (cirrus); flights 1–2 at ~15–20 klx, flights 3–6 at 5–8 klx. Wind from the anemometer 1.6–4.2 m/s (before flight 1: 3.3 / 4.1), direction per DroneTower 190–205° (S/SSW). Wind from log (`wind_from_log.py`, log 33, window 861–878 s): tilt **3.21°**, direction **209° (SSW)**, p95 6.0°, consistent with DroneTower; more than twice the value of 12 Sep (1.1–1.5°). Hover at A in the logs: 3–5° of tilt (E1-015), versus 0–1.6° the day before.
+Illuminance by time (lx; the four X10 readings are direct sun on the dome, display × 10 fc × 10.764, annex D §8): 89 600, 91 800, 93 400 → 213 000, 221 000 → 191 000, 167 000 → 62 100, 55 900 → 72 400 → 55 100, 55 100, 52 700 → 76 900, 81 000 → 70 800, 74 400, 89 100 lx. Range 53–222 klx, variable cloud cover (cirrus); flights 1–2 at ~161–215 klx, flights 3–6 at 54–86 klx. Wind from the anemometer 1.6–4.2 m/s (before flight 1: 3.3 / 4.1), direction per DroneTower 190–205° (S/SSW). Wind from log (`wind_from_log.py`, log 33, window 861–878 s): tilt **3.21°**, direction **209° (SSW)**, p95 6.0°, consistent with DroneTower; more than twice the value of 12 Sep (1.1–1.5°). Hover at A in the logs: 3–5° of tilt (E1-015), versus 0–1.6° the day before.
 
 ## Flights
 

@@ -1,5 +1,7 @@
 # S-04: Session card, 20 Aug 2026
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 **Type:** autonomous missions, collection of the measurement baseline for the harmonic notch filter · **Platform:** 2 · **Firmware:** ArduCopter 4.7.0
 **Log:** `log_7_2026-8-20-16-54-54.bin` (132 MB, `INS_RAW_LOG_OPT = 9`)
 **Parameter snapshots:** `ariadne_v2_20aug2026_1145`, `_1148`, `_2015`, `_2020`
@@ -15,7 +17,7 @@
 | Pilot in command | Filip Pepliński |
 | Observer (VLOS role) and telemetry operator | Szymon P. Pepliński |
 | Wind (GM816 anemometer) | 2–3 m/s at ground level. Proxy from the log: hover tilt 4.60° / 4.55°, above the 4° threshold adopted for this mission. Discussed in the section "Wind criterion" |
-| Illuminance (GM1010) | 2450 lx, consistent with the time of day (session 16:45 – 16:54) |
+| Illuminance (GM1010) | 26 400 lx, consistent with the time of day (session 16:45 – 16:54) |
 | Air and pack temperature, Kp index | [TO BE COMPLETED] |
 | Surface | [TO BE COMPLETED] |
 | DroneTower check-in | **not done, the phone battery ran flat.** The formal and legal condition from `procedures/preflight.md` remained unmet for this session. Discussed below |

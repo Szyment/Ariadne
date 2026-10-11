@@ -1,5 +1,7 @@
 # S-09: Session card, 25 Aug 2026
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 **Type:** check flight after tuning + GNSS-denied run attempts · **Platform:** 2 · **Firmware:** ArduCopter 4.7.0
 **Log:** `log_14_2026-8-25-12-20-40.bin`
 **Configuration:** `ariadne_v2_23aug2026_2036.params` (first flight on the gains from autotune)
@@ -15,14 +17,14 @@
 | Air temperature (transmitter) | 19.6 °C | 19.8 °C |
 | Ground temperature (AX-7510) | 26.3 °C | 25.3 °C |
 | Grass temperature (AX-7510) | 21.7 °C | 20.8 °C |
-| Illuminance (GM1010) | 3095 lx | 3441 lx |
+| Illuminance (GM1010) | 33 300 lx | 37 000 lx |
 | Cloud cover | complete | complete |
 
 Flight 12:14:05 – 12:20:26. GM1010 range multiplier not recorded, [TO BE COMPLETED].
 
 **The wind of 4.6 m/s exceeded the criterion of 4.0 m/s AVG at 2.0 m** established on 23 Aug (`ANNEX_C` §7.1). The session would not have qualified as a measurement session.
 
-Illuminance rose from 3095 to 3441 lx under complete overcast, a stable cell, unlike the dusk of S-08, where the rate was −7.27 %/min.
+Illuminance rose from 33 300 to 37 000 lx under complete overcast, a stable cell, unlike the dusk of S-08, where the rate was −7.27 %/min.
 
 The ground was 6.7 K warmer than the air, the grass 4.6 K cooler than the ground. In S-08 in the evening the grass–ground difference was 1.6–2.3 K.
 

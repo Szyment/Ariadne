@@ -20,6 +20,8 @@ Run: hold at A 30 s → B 3 s → A 30 s (in `RTL`: 15 s). Speed: `WP_SPD` 150 =
 | grass T1 | 52.1380122 / 21.1607767 | 52.1377369 / 21.1611530 | 140° | 52.1381317 / 21.1612820 (path) | S-17, S-18, S-20 |
 | grass T2 | 52.1376277 / 21.1604128 | 52.1373418 / 21.1608037 | 140° | 52.1381317 / 21.1612820 (path), A 82 m from home | S-21 (file removed 20 Sep: too deep in the field) |
 | grass T3 | 52.1375457 / 21.1603449 | 52.1373898 / 21.1608774 | 115° | 52.1381317 / 21.1612820 (path), A 91 m from home | from 20 Sep (T1 too close to the trees, T2 too deep in the field) |
+| grass T4 | 52.1375811 / 21.1607336 | 52.1379096 / 21.1609832 | 25° | 52.1381317 / 21.1612820 (path), A 72 m from home | from 4 Oct (rotated ~90° to T3) |
+| grass T5 | 52.1380712 / 21.1608406 | 52.1378729 / 21.1613357 | 123° | 52.1381317 / 21.1612820 (path), A 31 m and B 29 m from home | from S-25 (self-test runs) |
 | field T1 | 52.1376191 / 21.1614674 | 52.1373449 / 21.1618800 | 137° | 52.1377186 / 21.1618933 | S-19 flights 1–3, S-21 |
 | field T2 | 52.1372714 / 21.1612269 | 52.1376149 / 21.1614645 | 23° | 52.1377186 / 21.1618933 | S-19 flights 4–6 |
 
@@ -54,6 +56,13 @@ Files prefixed with the number of the session in which they were created; their 
 
 The drafts of 5 Sep (`Dryf_E1_*`, near the pond, not flown) were removed on 18 Sep 2026.
 
+
+`E1_grass_T4_3m_LAND.plan`, `E1_grass_T4R_3m_LAND.plan` (added 4 Oct 2026): track T4, point A placed by Szymon in QGC, B 40 m away on course 25° (A 52.1375811, 21.1607336; B 52.1379096, 21.1609832; course 25°, 40 m; A 72 m and B 32 m from home), rotated by about 90° to the 115°/295° axis of T3 and kept away from the field edge; flown forward and reversed to test texture anisotropy.
+
+`E1_grass_T5_3m_LAND.plan` (added 4 Oct 2026): standard A → B → A → home → LAND on track T5, the reference for the self-test runs.
+
+`E1_grass_T5_3m_SELFTEST_LAND.plan`, `E1_field_T1_3m_SELFTEST_LAND.plan` (added 4 Oct 2026, for S-25): the outbound leg split into four 10 m segments with a 3 s stop at each (A → 10 m → 20 m → 30 m → B), return leg continuous, then home and LAND; hover 30 s at A before and after as in the standard plans. The stops give eight acceleration phases on the outbound leg for the scale observable (`analysis/scale_observable.py`); the return leg is compared with the standard runs. T5 is a new grass track close to home (A placed by Szymon, both ends about 30 m from home) so that a pack covers three self-test runs; the field plan uses field T1.
+
 ## Files
 
 | File | Title |
@@ -61,6 +70,7 @@ The drafts of 5 Sep (`Dryf_E1_*`, near the pond, not flown) were removed on 18 S
 | [`E1_field_T1R_3m_LAND.plan`](E1_field_T1R_3m_LAND.plan) |  |
 | [`E1_field_T1_1.5m_LAND.plan`](E1_field_T1_1.5m_LAND.plan) |  |
 | [`E1_field_T1_3m_LAND.plan`](E1_field_T1_3m_LAND.plan) |  |
+| [`E1_field_T1_3m_SELFTEST_LAND.plan`](E1_field_T1_3m_SELFTEST_LAND.plan) |  |
 | [`E1_field_T2_3m_LAND.plan`](E1_field_T2_3m_LAND.plan) |  |
 | [`E1_grass_T1_3m_LAND.plan`](E1_grass_T1_3m_LAND.plan) |  |
 | [`E1_grass_T1_3m_RTL.plan`](E1_grass_T1_3m_RTL.plan) |  |
@@ -68,3 +78,7 @@ The drafts of 5 Sep (`Dryf_E1_*`, near the pond, not flown) were removed on 18 S
 | [`E1_grass_T3_1.5m_LAND.plan`](E1_grass_T3_1.5m_LAND.plan) |  |
 | [`E1_grass_T3_3m_LAND.plan`](E1_grass_T3_3m_LAND.plan) |  |
 | [`E1_grass_T3_3m_VEL075_LAND.plan`](E1_grass_T3_3m_VEL075_LAND.plan) |  |
+| [`E1_grass_T4R_3m_LAND.plan`](E1_grass_T4R_3m_LAND.plan) |  |
+| [`E1_grass_T4_3m_LAND.plan`](E1_grass_T4_3m_LAND.plan) |  |
+| [`E1_grass_T5_3m_LAND.plan`](E1_grass_T5_3m_LAND.plan) |  |
+| [`E1_grass_T5_3m_SELFTEST_LAND.plan`](E1_grass_T5_3m_SELFTEST_LAND.plan) |  |

@@ -1,5 +1,7 @@
 # S-17: 12 Sep 2026 (day), Vistula meadow (Kępa), first E1 measurement runs
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 Logs: `log_29_2026-9-12-13-27-46.bin` (pack P1, flights 1–3) · `log_30_2026-9-12-13-43-46.bin` (pack P2, flights 4–6). Configuration: `ariadne_v2_12sep2026_1113.params` (before the session; changes relative to 28 Aug: `FENCE_RADIUS` 300 → 70, the rest automatic), `ariadne_v2_12sep2026_1642.params` (after the session; only `MIS_TOTAL` and automatic values). Firmware ArduCopter 4.7.0 (1511f271). Plan: `missions/E1_grass_T1_3m_RTL.plan` (content: A 30 s → B 3 s → A 15 s → RTL). Photos and screenshots: `build-log/photos/2026-09-12/session-1-day/`. Results: `analysis/results/S-17_2026-09-12_drift_analysis.txt`, extracts in `data/`.
 
 ## Site
@@ -18,13 +20,13 @@ Morning: surface wind 2.8 m/s from 305° (NW), at 100 m 3.5 m/s, gusts 5.3, Kp 2
 
 Block measurements: before, between packs, after. Anemometer GM816 for 60 s at 2.0 m, direction NW 305°.
 
-| Block | Time | Wind AVG / MAX [m/s] | Lux GM1010 | Air temp. | Surface temp. | Packs |
+| Block | Time | Wind AVG / MAX [m/s] | Illuminance [lx] (GM1010) | Air temp. | Surface temp. | Packs |
 |---|---|---|---|---|---|---|
-| before flights 1–3 | ~13:05 | 1.2 / 2.1 | 3177 | 23.6 °C | 18 °C | P1 before: 18.8–22.1 °C |
-| between packs | ~13:28 | 2.1 / 3.1 | 3321 | 23.4–25.4 °C | — | P1 after flights: 29.4 °C |
-| after flights 4–6 | ~13:45 | 1.4 / 1.8 | 6464 | — | 13.7 °C | P2 after flights: 22.8–23.7 °C |
+| before flights 1–3 | ~13:05 | 1.2 / 2.1 | 34 200 | 23.6 °C | 18 °C | P1 before: 18.8–22.1 °C |
+| between packs | ~13:28 | 2.1 / 3.1 | 35 700 | 23.4–25.4 °C | — | P1 after flights: 29.4 °C |
+| after flights 4–6 | ~13:45 | 1.4 / 1.8 | 69 600 | — | 13.7 °C | P2 after flights: 22.8–23.7 °C |
 
-Wind AVG at most 2.1 m/s (field criterion 4.0; §8 threshold 5.0). Lux 3–6 thousand = the "full daylight" cell, variable cloud cover.
+Wind AVG at most 2.1 m/s (field criterion 4.0; §8 threshold 5.0). Illuminance 34–70 klx (GM1010 3177–6464 fc, annex D §8) = the "full daylight" cell, variable cloud cover.
 
 **Wind from log** (`analysis/results/wind_20260912.md`): hover tilt 0.7–1.6°, direction 292–312° (NW), gustiness p95 2.4–3.3°. Consistent with the anemometer.
 
@@ -41,7 +43,7 @@ Wind AVG at most 2.1 m/s (field criterion 4.0; §8 threshold 5.0). Lux 3–6 tho
 
 Cell: **LUX1-SURF1-ALT3-VEL15** (full daylight / fresh grass, not mown / 3.0 m / 1.5 m/s). RC7 switch times, voltages, satellites and altitudes are in the log; the dataset = the phase from `Using EKF Source Set 2` to `Set 1` (A→B→A), the flight to A and the return are outside the dataset.
 
-All flights: `OF.Qual` 255, rangefinder median 2.99–3.02 m, max 3.28 m (margin ≥ 0.9 m to the 4.2 m threshold), GNSS 24–32 satellites, HDOP 0.45–0.60, logs complete, no interventions. LUX flag for flights 4–6: between the "between" block and the "after" block the lux rose from 3321 to 6464 (passing clouds), and there was no measurement at each flight, so the criterion "change > 30 % during the run" cannot be decided per flight. Flights 2–3: 3177 → 3321 (5 %), no reservations.
+All flights: `OF.Qual` 255, rangefinder median 2.99–3.02 m, max 3.28 m (margin ≥ 0.9 m to the 4.2 m threshold), GNSS 24–32 satellites, HDOP 0.45–0.60, logs complete, no interventions. LUX flag for flights 4–6: between the "between" block and the "after" block the illuminance rose from 35 700 to 69 600 lx (passing clouds), and there was no measurement at each flight, so the criterion "change > 30 % during the run" cannot be decided per flight. Flights 2–3: 3177 → 3321 (5 %), no reservations.
 
 ## Findings
 

@@ -1,5 +1,7 @@
 # S-02: Session card, 18 Aug 2026
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 **Type:** first flights of platform 2, detection of yaw torque imbalance · **Platform:** 2 · **Firmware:** ArduCopter 4.7.0
 **Logs:** `log_2` … `log_5` in `flight-logs/platform-2-ardupilot/`
 **Parameter snapshots:** `ariadne_v2_18aug2026_1734.params`, `ariadne_v2_18aug2026_1740.params`
@@ -15,7 +17,7 @@
 | Pilot in command | Filip Pepliński |
 | Observer (VLOS role) and telemetry operator | Szymon P. Pepliński |
 | Wind (GM816 anemometer) | 2.5 m/s; according to a second reading 3–4 m/s with gusts to 5 m/s, i.e. at the limit of the rejection threshold from protocol §8 |
-| Illuminance (GM1010) | 1330 lx |
+| Illuminance (GM1010) | 14 300 lx |
 | Air and pack temperature | [TO BE COMPLETED] |
 | Kp index | [TO BE COMPLETED] |
 | Surface | Grass. This follows from the description of the tip-over after landing in the tuning document; to be confirmed |

@@ -1,5 +1,7 @@
 # S-11: 26 Aug 2026, optical-flow limit and tip-over after landing
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 Log: `log_18_2026-8-26-11-30-22.bin`.
 
 ## Conditions
@@ -9,7 +11,7 @@ Log: `log_18_2026-8-26-11-30-22.bin`.
 | Wind | **5.0 m/s, gusts 5.5 m/s**, from 69° |
 | Air temperature | 22.7 °C |
 | Ground temperature | 32.3 °C |
-| Illuminance | 15 370 lx |
+| Illuminance | 165 000 lx (display 1537 X10 fc = 15 370 fc, IMG_9652, 11:17; sensor towards the sky, cloudless, direct sun on the dome, annex D §8) |
 | Surface | grass |
 | Mode | LOITER throughout the flight |
 

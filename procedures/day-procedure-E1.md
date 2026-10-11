@@ -55,6 +55,8 @@ A reasonable starting point: ALT {1.5; 3.0}, VEL {0; 1.5}, SURF {grass; asphalt 
 - [ ] Roles recorded: pilot in command, VLOS observer, advisor present Y/N
 - [ ] VEL075 (0.75 m/s) runs: two per pack, start only above 90 %; abort before switching to SRC2 if the pack is below 50 % (S-22: battery failsafe on the home leg of the second VEL075 run). Set `WP_SPD` 0.75 before the block and restore 1.5 after it; check the value in QGC (shown in m/s).
 - [ ] Heading test (from S-23): on one pack alternate the forward and the reversed plan of the same track (`E1_grass_T3_3m_LAND` / `E1_grass_T3R_3m_LAND`, then the field pair); the reversed plan starts its reference hover at B. Purpose: separate leg order from heading in the return-leg scale error. Field runs in wind ≤ 2 m/s when possible, to separate surface from wind.
+- [ ] Illuminance: read the lux meter on the surface flown (field runs: on the field, not on the grass beside the path), and keep reading until the last flight; S-23.
+
 
 
 

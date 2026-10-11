@@ -10,7 +10,7 @@
 |---|---|
 | **Author** | Filip Pepliński, student, ALO przy PJATK, Poland |
 | **Advisor** | Szymon P. Pepliński (infrastructure, safety of flight operations, review) |
-| **Status** | Phase 2: E1 screening campaign running since 12 Sep 2026; **32 accepted GNSS-denied runs** in six sessions (as of 21 Sep) |
+| **Status** | Phase 2: E1 screening campaign running since 12 Sep 2026; **60 accepted GNSS-denied runs** in nine sessions (as of 11 Oct) |
 | **Target venues** | EUCYS / Odkrycia (submission 31 Dec 2026); E(x)plory 2027 → Regeneron ISEF |
 | **License** | Code: MIT. Dataset and documentation: CC BY 4.0 |
 | **Last revised** | 23 Aug 2026 |
@@ -190,7 +190,7 @@ Demonstrated in flight on 25 Aug 2026 (`log_14`): with the aircraft at 9.9–11.
 - Range depends on the target, and **surface is a factor in the matrix**. A ceiling set to the grass-limited range would be lower over asphalt, tying the altitude axis to the surface axis and making the two effects inseparable. The ceiling must be one that every surface under test supports, i.e. at or below the 10%-reflectivity figure of 7 m.
 - Below 6 m the height error is a fixed ±6 cm rather than a percentage. Flow scaling divides by that height, so its error enters the velocity directly.
 
-**Ambient-light immunity checked, not assumed.** The datasheet rates the sensor to 70 klx and the session of 22 Aug was flown at ~70 000 lx — at the stated limit. In that log every airborne sample below 6 m returned `Good`, with no `NoData` and no dropouts, and the overcast session of 25 Aug behaved identically. Bright sunlight does not degrade the height channel at this altitude.
+**Ambient-light immunity checked, not assumed.** The datasheet rates the sensor to 70 klx and the session of 22 Aug was flown at about 75 000 lx (7000 fc on the GM1010, see annex D §8), at or slightly above the stated limit. In that log every airborne sample below 6 m returned `Good`, with no `NoData` and no dropouts, and the overcast session of 25 Aug behaved identically. Bright sunlight does not degrade the height channel at this altitude.
 
 **Navigation, outdoor:**
 
@@ -216,7 +216,7 @@ The three-stage design, the run counts and the rejection criteria are specified 
 - **Altitude below 6 m is recorded from the rangefinder, not from `CTUN.Alt`.** In 3 m/s wind gusting to 5.6 m/s the barometric estimate exceeded the rangefinder by 0.9–1.9 m while hovering at 1.7 m. The magnitude matches airflow-induced static-pressure error at the barometer port: dynamic pressure at 5.6 m/s is 18.7 Pa against a vertical gradient of 11.7 Pa/m, i.e. 1.6 m of apparent altitude. ArduPilot's barometer wind compensation (`BARO1_WCF_ENABLE`) is **deliberately left off**, because it requires the EKF3 wind estimate, which in turn requires drag fusion — and drag fusion aids dead reckoning without GNSS, which is the quantity RQ1 measures.
 - **The 5 m/s wind limit applies at run altitude, not at the measuring point.** With runs capped at 6 m and a 2.0 m → 6 m factor of ×1.26, the field criterion is a single number: **the anemometer AVG at 2.0 m must not exceed 4.0 m/s.** No August session would have been rejected under this rule.
 
-**A second constraint discovered at dusk (21 Aug 2026).** Illuminance fell from 58 to 21 lx in nine minutes, a 64% drop. A 90 s run therefore sees an ~11% change, inside the protocol's 30% rejection threshold, but a nominal illuminance cell survives only two or three runs. **Five repetitions of a dusk cell cannot be collected in one evening**; they require five evenings at the same hour, or a controlled-illumination indoor venue, which changes the surface and introduces a confound. This is a logistical limit the protocol does not anticipate and it applies to the most informative part of the matrix.
+**A second constraint discovered at dusk (21 Aug 2026).** Illuminance fell from 624 to 226 lx in nine minutes, a 64% drop. A 90 s run therefore sees an ~11% change, inside the protocol's 30% rejection threshold, but a nominal illuminance cell survives only two or three runs. **Five repetitions of a dusk cell cannot be collected in one evening**; they require five evenings at the same hour, or a controlled-illumination indoor venue, which changes the surface and introduces a confound. This is a logistical limit the protocol does not anticipate and it applies to the most informative part of the matrix.
 
 **Navigation, tunnel-analog:**
 
@@ -252,7 +252,7 @@ Hard external deadline: **EUCYS / Odkrycia national submission, 31 December 2026
 | 0b. Migration | Aug 2026 | X500 V2 + Pixhawk 6X built, ArduCopter configured, EKF3 source switching verified | **Done** (15–18 Aug) |
 | 0c. Tuning | Aug – early Sep 2026 | Yaw imbalance corrected, harmonic notch verified, autotune complete | **Done.** Yaw imbalance corrected 22 Aug (+15% → −2.3%); autotune 23 Aug; configuration frozen (protocol §0), firmware 4.7.0 |
 | 1. Denial pipeline | Sep 2026 | FlowCal done, source switching validated, first flow-only flight, detector prototype and lead-time metric working | **Done.** First flow-only flight 23 Aug; detector v0.2 (`analysis/degradation_detector.py`) runs offline on every run; first measured lead times: ~6 min on the illuminance axis (E1-019), 19 s before the EKF failsafe (S-21 test) |
-| 2. Outdoor campaign | 12 Sep – 15 Nov 2026 | Pre-registered reduced design, E1–E3; self-diagnosis and anchoring results; dataset frozen 15 Nov | **E1 running** at Kępa Okrzewska: 23 accepted runs in five sessions (S-17…S-21, 12–17 Sep); grass and ploughed field, full daylight, overcast and dusk to 3 lx, 3 m and 1.5 m, 1.5 and 0.75 m/s |
+| 2. Outdoor campaign | 12 Sep – 15 Nov 2026 | Pre-registered reduced design, E1–E3; self-diagnosis and anchoring results; dataset frozen 15 Nov | **E1 running** at Kępa Okrzewska: 23 accepted runs in five sessions (S-17…S-21, 12–17 Sep); grass and ploughed field, full daylight, overcast and dusk to ~32 lx, 3 m and 1.5 m, 1.5 and 0.75 m/s |
 | 3. Tunnel analog | Oct – Nov 2026 | E6 / E6-A in a dark corridor with an independent truth modality | Sites identified; **truth modality selected 23 Aug** (UWB via `AP_Beacon`, logged unfused); hardware not procured |
 | 4. Analysis and paper | 15 Nov – 31 Dec 2026 | Notebooks final; paper (PL + EN); reviewer's recommendation; **submitted 31 Dec** | |
 | 5. Fiber subsystem | 2027 | Kit procured and adapted, spool and fairlead printed, bench-characterized, then flown | |
@@ -330,8 +330,8 @@ Every dataflash log contains a complete parameter dump written at boot, so each 
 
 ## 10. Current status
 
-**As of 21 September 2026.**
+**As of 4 October 2026.**
 
-The E1 screening campaign started on 12 September at Kępa Okrzewska (meadow behind the Vistula dyke, private land, RPA55 zone with a DroneTower check-in per session). Six sessions (S-17…S-22) produced **32 accepted GNSS-denied runs** (`flight-logs/INDEX.md`, per-run CSV in `analysis/data/E1/`) plus calibration and threshold-test flights outside the dataset. Configuration has stayed frozen since protocol §0; the only parameter changed is the geofence radius (70 → 90 → 120 m), which is not part of the estimator. Each run is A → B → A → home → land at 3 m (terrain frame, rangefinder) and 1.5 m/s, with 30 s reference hovers, flown from the transmitter's source-set switch (EK3 source set 2 = optical flow only).
+**Corrections of 4 Oct 2026, applied throughout the repository:** (1) all illuminance values before 4 Oct were GM1010 foot-candle readings recorded as lux; multiplied by 10.764 (annex D §8); the PMW3901 threshold over grass is 20–45 lx, not 2–4 lx. (2) Flight times in the S-22 and S-23 cards were taken from the log file names (time of closing); recomputed from GPS time, illuminance per run reassigned. Path ratios, drift values and run acceptance are unchanged.
 
 Detailed session-by-session results: `sessions/` and `flight-logs/INDEX.md`.

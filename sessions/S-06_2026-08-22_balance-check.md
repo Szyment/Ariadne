@@ -1,5 +1,7 @@
 # S-06: Session card, 22 Aug 2026
 
+*Illuminance in lux, converted from the GM1010 foot-candle readings (× 10.764, annex D §8, 4 Oct 2026); X10-range readings are display × 10 fc, converted the same way (annex D §8, 11 Oct 2026).*
+
 **Type:** balance and symmetry check flight, after the motor alignment correction · **Platform:** 2 · **Firmware:** ArduCopter 4.7.0
 **Log:** `log_9_2026-8-22-16-05-38.bin` (123 MB) · **Ground telemetry:** `2026-08-22 16-05-42.tlog`
 **Configuration:** `ariadne_v2_22aug2026_1519.params`, no changes for the flight
@@ -15,15 +17,15 @@
 | Pilot in command | Filip Pepliński |
 | Observer (VLOS role) and telemetry operator | Szymon P. Pepliński |
 | Wind (GM816 anemometer) | **2 m/s on average, gusts 3.2 m/s, from the west (270°)** |
-| Illuminance (GM1010) | **70 000 lx** (reading 7000 on the ×10 range) |
+| Illuminance (GM1010) | **75 300 lx** (reading 7000 fc, no range multiplier; annex D §8) |
 | Weather | after rain, cloudless, full sun |
 | Surface condition | **wet grass.** On 22 Aug intermittent showers all day, heavy towards the end of the day; session at 16:05. Confirmed 23 Aug: the next day there were puddles in the forest. Difference between the first and second flight not recorded |
 | Session start | 16:05 |
 | Air and pack temperature, Kp index | [TO BE COMPLETED] |
 
-> **Correction 23 Aug.** The reading was recorded without the range multiplier. Solar elevation at 16:01 was 34.3°, upper bound for a cloudless sky 62 100 lx. The recorded weather is *after rain, cloudless, full sun*, in which 7 000 lx would correspond to dense overcast. A reading of 7000 on the ×10 range gives 70 000 lx, i.e. 13% above the model. Verification: `protocol/ANNEX_D_illuminance_measurement.md` §6.
+> **Correction 23 Aug, withdrawn 4 Oct.** On 23 Aug the reading 7000 was taken for a lux reading without the ×10 range multiplier and corrected to 70 000 lx. On 4 Oct 2026 it was established that the GM1010 had been in foot-candle mode throughout (annex D §8): 7000 fc = 75 300 lx, 21 % above the horizontal clear-sky value for 34.3° (62 100 lx), consistent with the dome reading above horizontal illuminance in direct sun. The display 7000 is below the X10 threshold of 9999, so no range multiplier was involved.
 
-**70 000 lx is the upper point of the illuminance axis.** The previous maximum was 2450 lx (20 Aug). The range covered in August spans 21 – 70 000 lx, i.e. three and a half orders of magnitude.
+**75 300 lx is the upper point of the illuminance axis.** The previous maximum was 26 400 lx (20 Aug). The range covered in August spans 226 – 75 300 lx, i.e. two and a half orders of magnitude.
 
 **First session after rain.** Surface condition is a covariate introduced into the run card on 22 Aug precisely because of this factor; this session is the first opportunity to record it.
 
