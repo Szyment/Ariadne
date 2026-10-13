@@ -1,6 +1,6 @@
 # Ariadne: Low-Cost Self-Diagnosing Navigation and a Fiber-Optic Lifeline for GNSS- and Radio-Denied Drone Flight
 
-**A commodity drone that predicts its own navigation collapse from onboard telemetry before it silently drifts, bounds the residual with cheap printed visual anchors, and stays connected through a fiber tether where radio dies. One sub-2 kg quadcopter, both halves of the thread, fully open method and dataset.**
+**Can a commodity drone tell that it is losing its position? Sixty GNSS-denied runs on a sub-2 kg quadcopter give a two-sided answer: failing light is announced by onboard telemetry, a wrong optical-flow scale is not. Cheap printed visual anchors are the next step to bound the error, and a fiber tether carries the signal where radio dies. Fully open method and dataset.**
 
 ![Ariadne platform 2 — Holybro X500 V2 with Pixhawk 6X, PMW3901 optical flow, TFmini-S rangefinder and Raspberry Pi 5 onboard computer, in hover (Sept 2026)](img/ariadne-p2.jpg)
 
@@ -13,7 +13,7 @@
 | **Status** | Phase 2: E1 screening campaign running since 12 Sep 2026; **60 accepted GNSS-denied runs** in nine sessions (as of 11 Oct) |
 | **Target venues** | EUCYS / Odkrycia (submission 31 Dec 2026); E(x)plory 2027 → Regeneron ISEF |
 | **License** | Code: MIT. Dataset and documentation: CC BY 4.0 |
-| **Last revised** | 23 Aug 2026 |
+| **Last revised** | 12 Oct 2026 |
 
 > **Scope of the December 2026 submission: RQ1, RQ2 and RQ3.** The fiber half (RQ4) is built and characterized in 2027 and is present here as the project's frame, not as a claimed 2026 result. See §5 for the schedule and the fallback rule that protects the navigation half.
 
@@ -21,7 +21,7 @@
 
 ## Abstract
 
-When a micro-UAV flies where satellites and radio cannot reach — a metro tunnel, a collapsed building — it does not merely lose its position; on low-cost hardware it loses the *knowledge* that it is lost, reporting a confident estimate while drifting tens of meters. This silent-failure mode is what makes commodity drones untrustworthy near people and infrastructure. Ariadne asks whether a commodity optical-flow drone — a EUR 30 flow sensor on a sub-2 kg quadcopter — can (1) predict its own navigation collapse from the sensor-health telemetry it already produces, distinguishing "announced" degradation from silent drift, with measurable lead time; and (2) bound the residual drift with sparse printed visual anchors. The project also characterizes how a lightweight fiber tether carries that honest failure signal and video back out where radio dies — the connection half of the same trust problem. We answer with a reproducible denial protocol on commodity ArduPilot hardware, a characterization of the failure boundary across surface, illuminance, altitude and speed, and an open dataset. The methodological device — log GNSS as truth but exclude it from the estimator — lets anyone repeat the study without a motion-capture lab.
+When a micro-UAV flies where satellites and radio cannot reach — a metro tunnel, a collapsed building — it does not merely lose its position; on low-cost hardware it loses the *knowledge* that it is lost, reporting a confident estimate while drifting tens of meters. This silent-failure mode is what makes commodity drones untrustworthy near people and infrastructure. Ariadne asks whether a commodity optical-flow drone, a EUR 30 flow sensor on a sub-2 kg quadcopter, can (1) tell from the sensor-health telemetry it already produces that its navigation is failing, distinguishing announced degradation from silent drift, with measurable lead time; and (2) bound the residual drift with sparse printed visual anchors. The method logs GNSS as truth but excludes it from the estimator, so anyone can repeat the study without a motion-capture lab. Sixty GNSS-denied runs in nine field sessions (12 Sep to 11 Oct 2026) give a two-sided answer to (1). Failing light is announced: image quality falls before the position error grows (E1-019), and in one of two threshold flights outside the dataset the detector fired 19 s before the estimator failsafe. A wrong optical-flow scale is silent: over a ploughed field the error reaches 11 m and at 1.5 m over grass 17 m, with image quality at maximum and residuals nominal. Once GNSS is removed, optical flow is the only horizontal velocity measurement in ArduPilot EKF3, so a constant scale factor cannot appear in the residuals; a self-test manoeuvre comparing IMU and estimator velocity changes reads the scale only to ±5 % per run. Scale errors of 5 to 20 % therefore remain invisible on board during a run, which makes external references the necessary next step: printed anchors (RQ2, first tests in October 2026) are now the priority. The project also characterizes how a lightweight fiber tether carries the failure signal and video out where radio dies (2027). Outputs: a reproducible denial protocol on commodity ArduPilot hardware, a failure map across surface, illuminance, altitude and speed, and an open dataset.
 
 ## 1. Motivation
 
@@ -252,8 +252,8 @@ Hard external deadline: **EUCYS / Odkrycia national submission, 31 December 2026
 | 0b. Migration | Aug 2026 | X500 V2 + Pixhawk 6X built, ArduCopter configured, EKF3 source switching verified | **Done** (15–18 Aug) |
 | 0c. Tuning | Aug – early Sep 2026 | Yaw imbalance corrected, harmonic notch verified, autotune complete | **Done.** Yaw imbalance corrected 22 Aug (+15% → −2.3%); autotune 23 Aug; configuration frozen (protocol §0), firmware 4.7.0 |
 | 1. Denial pipeline | Sep 2026 | FlowCal done, source switching validated, first flow-only flight, detector prototype and lead-time metric working | **Done.** First flow-only flight 23 Aug; detector v0.2 (`analysis/degradation_detector.py`) runs offline on every run; first measured lead times: ~6 min on the illuminance axis (E1-019), 19 s before the EKF failsafe (S-21 test) |
-| 2. Outdoor campaign | 12 Sep – 15 Nov 2026 | Pre-registered reduced design, E1–E3; self-diagnosis and anchoring results; dataset frozen 15 Nov | **E1 running** at Kępa Okrzewska: 23 accepted runs in five sessions (S-17…S-21, 12–17 Sep); grass and ploughed field, full daylight, overcast and dusk to ~32 lx, 3 m and 1.5 m, 1.5 and 0.75 m/s |
-| 3. Tunnel analog | Oct – Nov 2026 | E6 / E6-A in a dark corridor with an independent truth modality | Sites identified; **truth modality selected 23 Aug** (UWB via `AP_Beacon`, logged unfused); hardware not procured |
+| 2. Outdoor campaign | 12 Sep – 15 Nov 2026 | Pre-registered reduced design, E1–E3; self-diagnosis and anchoring results; dataset frozen 15 Nov | **E1 running** at Kępa Okrzewska: 60 accepted runs in nine sessions (S-17…S-25, 12 Sep to 11 Oct); grass and ploughed field, full daylight, overcast and dusk, 3 m and 1.5 m, 1.5 and 0.75 m/s; scale self-test manoeuvre (S-25). RQ1 answered on the scale axis (§10). Remaining E1 cells: field 1.5 m ×3, 0.75 m/s ×2 in daylight, a third forward/reverse pair on T4, both directions with wind of 3 m/s or more along the track. **RQ2 started:** first AprilTag tests 11 Oct (detection from 1.5 m, tag spacing read from the image within 1 %); field session with tag rows every 10 m before 15 Nov |
+| 3. Tunnel analog | Oct – Nov 2026 | E6 / E6-A in a dark corridor with an independent truth modality | **Venue changed to a greenhouse** (private property, about 54 × 12 m, concrete paths, controllable light, no wind) as the hall and tunnel analog: hard-surface runs at 1.5 and 3 m, the illuminance axis, tags on concrete. A zero session without flight comes first (GNSS under glass, illuminance, tape survey). UWB truth modality (selected 23 Aug, `AP_Beacon`, logged unfused) not procured; the weakness of §4.2 still applies (camera truth and optical flow degrade together in the dark) |
 | 4. Analysis and paper | 15 Nov – 31 Dec 2026 | Notebooks final; paper (PL + EN); reviewer's recommendation; **submitted 31 Dec** | |
 | 5. Fiber subsystem | 2027 | Kit procured and adapted, spool and fairlead printed, bench-characterized, then flown | |
 | 6. Depth and finals | 2027 – Jan 2028 | Expand the matrix, deepen the fiber envelope for E(x)plory → Regeneron ISEF (May 2027) and the EUCYS final; MIT Early Action 1 Nov 2027 | |
@@ -330,8 +330,19 @@ Every dataflash log contains a complete parameter dump written at boot, so each 
 
 ## 10. Current status
 
-**As of 4 October 2026.**
+**As of 11 October 2026 (after S-25).**
 
 **Corrections of 4 Oct 2026, applied throughout the repository:** (1) all illuminance values before 4 Oct were GM1010 foot-candle readings recorded as lux; multiplied by 10.764 (annex D §8); the PMW3901 threshold over grass is 20–45 lx, not 2–4 lx. (2) Flight times in the S-22 and S-23 cards were taken from the log file names (time of closing); recomputed from GPS time, illuminance per run reassigned. Path ratios, drift values and run acceptance are unchanged.
 
 Detailed session-by-session results: `sessions/` and `flight-logs/INDEX.md`.
+
+### Four runs on video
+
+Rendered from the per-run CSV in `data/`. Dark blue: the logged GNSS position, where the drone really is. Pink: the estimator position with GNSS removed from the estimator (optical flow only), where the drone believes it is. Position error is the distance between the two. Click a frame for the video (1920 × 1080, playback 5×, no audio; attached to release [S-25](https://github.com/Szyment/Ariadne/releases/tag/S-25)). The background orthophoto (GUGiK, geoportal.gov.pl) is from another year and shows the location, not the surface on the flight day.
+
+| | |
+|---|---|
+| [![Run E1-041, grass, 3 m](img/run_E1-041.png)](https://github.com/Szyment/Ariadne/releases/download/S-25/E1-041_grass_3m_en.mp4) | [![Run E1-055, ploughed field, 3 m](img/run_E1-055.png)](https://github.com/Szyment/Ariadne/releases/download/S-25/E1-055_field_3m_en.mp4) |
+| **E1-041**, grass, 3 m, 4 Oct 2026. Reference case: maximum error 2.61 m. | **E1-055**, ploughed field, 3 m, 11 Oct 2026. Error reaches 7.41 m with sensor image quality at maximum. |
+| [![Run E1-058, grass, 1.5 m](img/run_E1-058.png)](https://github.com/Szyment/Ariadne/releases/download/S-25/E1-058_grass_1.5m_en.mp4) | [![Run E1-019, grass, dusk, 3 m](img/run_E1-019.png)](https://github.com/Szyment/Ariadne/releases/download/S-25/E1-019_grass_dusk_3m_en.mp4) |
+| **E1-058**, grass, 1.5 m, 11 Oct 2026. Error reaches 17.13 m with sensor image quality at maximum. | **E1-019**, grass, dusk, 3 m, 13 Sep 2026. Sensor image quality falls to 0 at 38.6 s while the error is 1.55 m; maximum error 3.96 m. |
