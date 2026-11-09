@@ -218,7 +218,7 @@ Failure matrix: every single failure degrades the system towards "records too mu
 | power loss | at most the current 60 s segment is lost, the rest is playable (raw H.264, headers in every segment) |
 | **Raspberry power path** | **the only failure without a software guard**, hence the field rule: no `REC active` in QGC before take-off = we do not fly; it is this rule that also detects a dead computer power supply (the failure of the evening of 28 Aug) |
 
-The final adversarial review (28 Aug) confirmed requirements R1/R2/R4/R6 by execution and pointed out three defects fixed before the freeze: the camera script exited with code 0 after an `rpicam-vid` crash and blocked the restart; the `cam DOWN` report lost the failure of the second camera during an incident of the first; `RC_CHANNELS` was not filtered by sender. The systemd journal is persistent (`/var/log/journal`), so every future failure leaves a trace.
+The final adversarial review (28 Aug) confirmed requirements R1/R2/R4/R6 by execution and pointed out three defects fixed before the freeze: the camera script exited with code 0 after an `rpicam-vid` crash and blocked the restart; the `cam DOWN` report lost the failure of the second camera during an incident of the first; `RC_CHANNELS` was not filtered by sender. The systemd journal is persistent (`/var/log/journal`), so every future failure leaves a trace. Until 1 Nov 2026 it was not: Raspberry Pi OS ships `/usr/lib/systemd/journald.conf.d/40-rpi-volatile-storage.conf` with `Storage=volatile`, so the journal lived in RAM and was lost at every power-off (found on 1 Nov, when the GNSS clock correction of that morning's flights could no longer be read). Fixed with the drop-in `/etc/systemd/journald.conf.d/ariadne-persistent.conf` (`Storage=persistent`, `SystemMaxUse=200M`), which sorts after the Raspberry Pi file and overrides it; `journalctl --flush` created `/var/log/journal/23bc0bfb94a943858a8bd0fa71ab7c4e`. Check after a reboot: `journalctl --list-boots` lists more than one boot (verified 1 Nov 2026 at 16:39: two boots listed, both recording services `active` after the reboot).
 
 ## Continuous recording
 
@@ -288,6 +288,67 @@ The agreement of both cameras is a check in itself: for both sessions `kam0` and
 Until 11 Oct the system clock was set only from GNSS time over MAVLink, so without GNSS (indoors) the recording directories and segment names carried a wrong time. A backup battery (Raspberry Pi RTC battery, ML2020, connector J5) now holds the clock across power cycles. Trickle charging is off by default and was enabled with `dtparam=rtc_bbat_vchg=3000000` in the `[all]` section of `/boot/firmware/config.txt`; `/sys/class/rtc/rtc0/charging_voltage` reads `3000000`. `util-linux-extra` installed for `hwclock`. Check after a one-minute power cut: `date` 19:01:06 local, correct. The GNSS time sync over MAVLink stays as the primary source whenever it is available.
 
 Home Wi-Fi added through NetworkManager (`nmcli dev wifi connect`, 2.4/5 GHz), address from DHCP; the Ethernet cable is no longer needed at home. In the field there is no Wi-Fi; the link is unchanged.
+
+## AprilTag detection on board, stage A (1 Nov 2026)
+
+Goal: detect the row tags on the Pi in real time from the kam0 stream, while kam0 keeps recording, as the first step towards correcting the position over the row (stage B: attitude and rangefinder from the daemon; stage C: flight; stage D: correction). Stage A is the camera and detector on the bench, without the flight controller.
+
+### Detector benchmark
+
+`analysis/results/apriltag/rpi_bench_20261101/bench_rpi.py` on 300 raw kam0 frames of flight 7 (`movies/apriltag/bench/kam0_f7_frames12150-12449_Y1296x972.npy`), run on the Pi with both recording services active, so that the load equals the load in flight. Reference: the same frames detected on the Mac (`expected_mac_dec2.csv`).
+
+| Variant | Time per frame |
+|---|---|
+| full 1296 × 972, decimate 2, 4 threads | 31.0 ms |
+| full 1296 × 972, decimate 2, 2 threads | 35.3 ms |
+| reduced 648 × 486, decimate 1, 2 threads | 32.3 ms |
+| reduced 648 × 486, decimate 1, 1 thread | 53.0 ms |
+| reduced 648 × 486, decimate 2, 1 thread | 15.7 ms, 295 of 300 reference frames detected |
+
+The two `rpicam-vid` processes take about 50 % and 45 % of one core; with both running the CPU is 75 % idle. Chosen: the reduced image, decimate 2, one thread, every second frame (15 Hz). One thread leaves three cores for recording and the daemon.
+
+### `onboard/tagcam.py`
+
+One process replaces the kam0 recording service while it runs (kam1 stays on `rpicam-vid`). It runs only on the tag test days, in place of the kam0 recording service; the recording architecture of 28 Aug, used for the E1 dataset, is unchanged. Picamera2 with two streams from one sensor mode (1296 × 972, 10 bit): the main stream (YUV420) goes to the software H.264 encoder (`LibavH264Encoder`, libav; the Pi 5 has no hardware H.264 encoder; 6 Mbit/s, constrained baseline, keyframe every 30 frames, headers repeated), the low-resolution stream (640 × 480, YUV420) goes to the detector. Detection runs on the luminance plane of every second frame; corners are mapped back to full-resolution pixels, so the detections use the same image coordinates as the calibration (`hardware/calibration/`).
+
+Recording is kept compatible with `analysis/stitch_recording.sh`: raw H.264 segments (`kam0_<HHMMSS>_<NNNNN>.h264`), each starting at a keyframe, switched at the first keyframe after the segment length. Per run directory (`~/nagrania/tagcam_<YYYYMMDD-HHMM>/`):
+
+| File | Content |
+|---|---|
+| `*_run.json` | configuration: sensor mode, streams, encoder, detector, principal point |
+| `*_frames.csv` | every encoded frame: segment, frame in segment, keyframe flag, encoder timestamp, monotonic time |
+| `*_processed.csv` | every frame given to the detector: sensor timestamp, monotonic, boot and wall time, exposure, analogue gain, lux, detection time, number of tags, dropped frames since the previous request |
+| `*_detections.csv` | one row per tag: sensor timestamp, ID, Hamming distance, margin, four corners, centre, side length in pixels |
+| `*_clock.csv` | steps of the wall clock larger than 20 ms during the run (GNSS time sync) |
+
+Every 10 s the program prints the encoder frame rate, detection rate, detection time (median and 95th percentile), tags per second, latency from the sensor timestamp to the result, dropped frames and its own CPU use. It stops cleanly on SIGINT or SIGTERM and after `--minutes` (0 = no limit).
+
+### Bench runs
+
+Both on 1 Nov 2026 indoors, aircraft on a support with kam0 at 0.96 m above the floor, A4 test tags (`apriltag/ariadne_apriltag_ID10-12_A4_140mm_bench.pdf`, black square 140 mm measured, laid with 0.48 m between centres). Recordings and CSVs in `movies/tagcam_bench/`; photos of the bench setup `build-log/photos/2026-11-01/` IMG_2381 to IMG_2385 (17:12 to 17:13, EXIF local time).
+
+`tagcam_20261101-1646` (10 min, 60 s segments): 17 966 frames, constrained baseline without B-frames, keyframe every 30 frames, stitched without error to 598.9 s with the 180° rotation. Nine gaps of 3 to 5 frames, each 12 frames after a segment switch: closing the old segment with `fsync` stalled the encoder for about 250 ms. Tag side 186.6 px against 189 px expected for 140 mm at 0.96 m; median margin 66; median distance between neighbouring centres from the image 0.518 m (5th percentile 0.475) against 0.48 m laid out, not explained (the tags may have moved). Exposure 33 ms, analogue gain 8.0 (the limit), camera lux estimate 29.
+
+Fix: the old segment is closed in a separate thread, the stop sequence is idempotent, and tags per second are reported per interval.
+
+`tagcam_20261101-1701` (5 min, 30 s segments, after the fix): 8 992 frames in 10 segments, every segment starts with a keyframe and matches `frames.csv`, largest encoder timestamp step one frame, no dropped frames, detection at 15.0 Hz, 6 to 8 ms per detection, 33 to 35 ms from the sensor timestamp to the result, process CPU 59 to 67 % of one core, clean stop.
+
+### Configuration for the tag test days
+
+`tagcam.py` replaces the kam0 recording through a drop-in for that one instance, `/etc/systemd/system/ariadne-nagrywanie@0.service.d/tagcam.conf`, which clears `ExecStart` and starts `/home/ariadne/venvs/tags/bin/python -u /home/ariadne/tagcam.py --camera 0 --minutes 0 --segment 60`, with `TimeoutStopSec=20`. The unit name stays the same, so the daemon still reports `REC active` only when both cameras record, and the SE switch still stops kam0 before shutdown. Removed after the test day (`rm` of the drop-in, `daemon-reload`, restart of `@0`).
+
+Checked on 1 Nov 2026 at 17:21 to 17:24, bench, both cameras, A4 test tags in view: 30 fps encoded, detection at 15.0 Hz, 5.4 ms median per detection, 33 to 34 ms from the sensor timestamp to the result, no dropped frames, `tagcam.py` 57 to 62 % of one core, kam1 `rpicam-vid` 40 %, whole system 73 % idle (79 % with the two `rpicam-vid` processes before the change). After `reboot` both services `active`, a new run directory, `RPi: REC active` in QGC. SE switch: `stopped: 1612 frames in 1 segments, 806 frames to the detector, 1612 tag detections, 0 missed sensor frames`, unit deactivated successfully.
+
+### First flight, 2 Nov 2026: exposure, not the detector, limits detection in motion
+
+Flight test on the field (`flight-logs/INDEX.md`, log 65). In hover over the row (0.8 to 3.5 m) the onboard detector found the tag in 100 % of frames from 1.2 m up. In the passes at 1.5 m/s it found 2 to 5 detector frames per pass at 1.5 m and none at 3 m, while the same frames of kam1 (NoIR, recorded by `rpicam-vid`, detected offline) show the tags in every frame in which they are visible: 15 to 18 frames per pass at 1.5 m, 26 to 38 at 3 m. The kam0 metadata explains it: over grass the automatic exposure sits at the frame limit, 33 ms, with gain 2.2 to 3.4; when the white tags enter the frame the exposure drops, with a lag of a few frames, to 18 to 21 ms at 1.5 m and only to 27 ms at 3 m, and every detection in motion falls in the frames at 21 ms or less. At 1.5 m/s a 33 ms shutter moves the image by 5 cm, almost two cells of the 220 mm tag (27.5 mm per cell); at 20 ms by 3 cm, one cell. kam1 has no infrared filter, gets more light and runs a shorter shutter. Fix: `--exposure-us` fixes the shutter (8 ms: 1.2 cm, under half a cell) and leaves the gain to the AGC.
+
+Bench check, 7 Nov 2026 (`movies/tagcam_bench/tagcam_20261107-1200_exposure8ms/`, CSVs only): drop-in with `--exposure-us 8000`, metadata 7995 µs, gain at the 8.0 limit indoors (camera lux 72), the A4 140 mm tag 0.97 m under kam0 (side 187 px). Tag still: 150 of 150 detector frames in each 10 s interval, margin 28 to 30. Tag moved by hand inside the frame: 150, 150 and 130 of 150 frames at image speeds of 200 to 950 px/s median, up to 2500 px/s (at 0.97 m: 0.75 to 1.9 m/s; the 1.5 m/s passes of 2 Nov at 1.5 m gave about 1300 px/s), margin 24 to 26. The margin is lower than outdoors (50 to 66) because of the dark image at maximum gain.
+
+Flight, 7 Nov 2026 (`flight-logs/INDEX.md`, log 66), same plans and tags as 2 Nov, 5900 lx, exposure 8 ms, gain 3.5 to 4.4: at 1.5 m and 1.4 to 1.6 m/s the detector found the tags in 9 to 11 of its frames per pass (the tag is in the swath for 0.6 to 0.7 s, 9 to 11 detector frames at 15 Hz), at 3 m in 19 to 23 (1.2 to 1.5 s in the swath), margin 47 to 52. Detection in motion is therefore limited by the shutter, not by the detector, and the fixed 8 ms shutter is the configuration for the tag flights.
+
+Position from single frames in motion (tag centre, kam0 calibration, attitude from `ATT`, height from the rangefinder; `analysis/apriltag_raw/README.md`): within one pass the lateral offset of the aircraft from ID 11 repeats from frame to frame with a standard deviation of 0.2 to 3 cm at 1.5 m and 3 to 14 cm at 3 m; the lateral spacing between the tags seen in the same frames is 0.75 to 0.78 m against 0.75 to 0.76 m measured on the ground. The along-track speed from the image over the 0.6 to 1.5 s of a pass is 1.28 to 1.49 m/s against 1.37 to 1.56 m/s from GPS over the same seconds, on average 5 % lower with a spread of 6 %; twelve passes do not settle whether this is a real scale difference.
+
 
 ## To do
 

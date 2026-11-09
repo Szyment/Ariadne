@@ -1,6 +1,6 @@
 # hardware
 
-The measurement platform: Holybro X500 V2 with Pixhawk 6X. Bill of materials and port map (components and part numbers; prices and suppliers are omitted, they vary by time and country), sensor geometry relative to the IMU, yaw-asymmetry analysis, and the Raspberry Pi 5 onboard computer integration.
+The measurement platform: Holybro X500 V2 with Pixhawk 6X. Bill of materials and port map (components and part numbers; prices and suppliers are omitted, they vary by time and country), sensor geometry relative to the IMU, yaw-asymmetry analysis, the Raspberry Pi 5 onboard computer integration, and the intrinsic calibration of both onboard cameras (`calibration/`).
 
 ## Files
 
@@ -12,3 +12,4 @@ The measurement platform: Holybro X500 V2 with Pixhawk 6X. Bill of materials and
 | [`YAW_ASYMMETRY.md`](YAW_ASYMMETRY.md) | Platform 2: yaw torque imbalance, RESOLVED |
 | [`pixhawk6x_baseboard_v2a_dimensions.png`](pixhawk6x_baseboard_v2a_dimensions.png) |  |
 | [`sensor_geometry_sketch.png`](sensor_geometry_sketch.png) |  |
+| [`calibration/`](calibration/) | Intrinsic calibration of the onboard cameras (README, kam0 and kam1 JSON) |

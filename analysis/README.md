@@ -189,6 +189,8 @@ Per run and per acceleration phase (EKF horizontal speed changing by more than `
 
 **Self-test runs, 11 Oct 2026 (S-25, E1-050…053 grass, E1-055…056 field; cell suffix `-SELFTEST`).** The outbound leg split into four 10 m segments with 3 s stops gives 10–13 phases per run. `r_pair` on the four grass runs: 0.944, 0.928, 1.003, 0.943 against reference 0.956, 0.960, 0.929, 0.957; field 0.974, 0.912 against 0.903, 0.885; rms error 0.05 over the 11 runs of the day, correlation 0.87 (0.52 over all 60 runs). The per-phase estimates are asymmetric in every run (acceleration 1.00–1.13, braking 0.83–0.91: Δv_IMU 1.2–1.3 m/s when accelerating, 1.6–1.7 m/s when braking, for the same change in the estimator), which is a gravity leak through an attitude error that follows the direction of acceleration; a joint fit of scale and a constant along-track bias does not reduce the error. The error is per run, not per phase, so more phases do not average it down. The observable separates the 1.5 m regime (0.73–0.81 read, 0.81–0.84 reference) from 3 m grass, and nothing finer. The campaign CSV `scale_observable.csv` covers 60 runs.
 
+**After 75 runs (S-26, 17 Oct 2026: field at 1.5 m ×11, grass at 1.5 m ×2, grass 3 m ×2).** Detector v0.2: 1 hit with negative lead time (E1-075, the dusk run over grass at 1.5 m from 80 to 37 lx: the image-quality warning comes 57 s after the switch, 21.7 s after the error crossed 5 m through the 1.5 m scale error), 2 early warnings, 35 misses, 37 no-event, no false alarms; every run at 1.5 m without a light problem is a miss. `scale_observable.csv` covers 75 runs; `r_pair` correlation with the reference 0.49 over the campaign, 0.76–1.02 on the 1.5 m runs of 17 Oct against reference 0.76–0.88, so the observable no longer separates the 1.5 m regime on the field as it did over grass on 11 Oct. `error_vs_time.py` on 75 runs: field 1.5 m/s 2.5 / 5.0 / 4.8 m at 30 / 60 / 90 s (n = 29), grass 1.5 m/s 1.8 / 3.7 / 3.0 m (n = 41), grass 0.75 m/s 1.0 / 2.3 / 2.2 m (n = 5).
+
 ### CSV columns (v0.2)
 
 Run CSV from `cut_runs.py`: `t_log_s`, `phase` (`before` / `flow_only` / `after`), `t_since_src2_s`, `ekf_lat`, `ekf_lon`, `ekf_alt`, `gps_lat`, `gps_lon`, `gps_nsats`, `gps_hdop`, `gps_spd`, `of_qual`, `of_flowX`, `of_flowY`, `of_bodyX`, `of_bodyY`, `rfnd_dist`, `ctun_alt`, `roll`, `pitch`, `yaw`, `xkf4_SV`, `xkf4_SP`, `xkf4_SH`, `xkf4_SM`, `xkf4_SS`, `rc7`, `mode`, `gpa_hacc`, `gpa_sacc`, `xkf3_IVN`, `xkf3_IVE`, `xkf4_TS`, `xkf5_FIX`, `xkf5_FIY`, `xkf5_AFI`, `xkf5_HAGL`, `xkf5_RI`, `xkf5_eVel`, `xkf5_ePos`, `vibe_x`, `vibe_y`, `vibe_z`. Column names after the first two follow the ArduPilot message and field names.
@@ -219,11 +221,53 @@ python3 analysis/apriltag_detect.py movies/kam0_20261011_192145.mp4 --tag-size 0
 
 **Indoor test, 11 Oct 2026 (home, no arming, no log; rangefinder read in MAVLink Inspector 1.50 ± 0.03 m).** Three A4 tags (ID 12, 13, 14; black square 16 cm, 20 cm boards, 20 cm apart, centres 0.40 m) on the floor, aircraft held by hand at 1.5 m; passes over the centre and 0.5 m to each side (sesja_052, 19:00) and hovers (sesja_054, 19:21). Results on the hover recording, every third frame: kam0 221 frames with a tag, 62 with all three, side 138 ± 3 px, height from the tag size 1.49 m at an assumed field of view of 54° (fx 1272 px); spacing from the image 0.403 m for neighbours (n = 269, 0.396–0.428) and 0.801 m across (n = 66), against 0.40 / 0.80 m laid out. kam1 (NoIR, larger lens): 207 frames, side 154 px, spacing 0.403 / 0.836 m; its focal length is about 1.24× that of kam0 (field of view about 44°) and the second spacing shows lens distortion at the edge of the frame. On the pass recording the spacing read 0.41 / 0.83 m (motion blur). Decision margin 55–63 (detector threshold about 20). Conclusion: a 16 cm tag at 1.5 m (136 px) is detected reliably; the row geometry is recovered from the image to 1 %; kam0 is the camera for the marker work. A 30 cm tag at 3 m gives 127 px, the same regime. Absolute camera position needs an intrinsic calibration (not done); relative scale does not.
 
+Intrinsic calibration of both cameras done on 1 Nov 2026 (`hardware/calibration/README.md`): kam0 fx 1293 px, horizontal field of view 53.2°; kam1 fx 1544 px, 45.5°, with strong barrel distortion (−8 % at the image edge), which explains the larger second spacing on kam1 above.
+
+## `apriltag_raw/` (1 Nov 2026)
+
+Detection on the raw onboard H.264 segments, as the Raspberry Pi sees the stream, for the AprilTag test flights of 1 Nov 2026; time alignment of video and log, camera axes, scale check, and the chessboard calibration of both cameras. Scripts and findings: `apriltag_raw/README.md`. Results: `analysis/results/apriltag/20261101/`.
+
+## anchor_counterfactual.py (7 Nov 2026)
+
+RQ2 from the E1 data without flying over anchors: for every run, the estimator error vector against GNSS in the flow-only phase, along the true (GNSS) path, with a position reset at every anchor met every 5, 10 or 20 m of true distance flown. Between anchors the error is the measured increment of the error vector, which is what a position correction leaves untouched (the flow scale error is not corrected, so the drift restarts after every reset). An anchor counts only if a row of three tags (1.5 m wide) falls inside the kam0 swath at the true position: lateral error below 0.75 m plus half the swath (1.5 m wide at 1.5 m, 3.0 m at 3 m, 53.2° horizontal field of view). The reset is to zero: in the hover tests of 2 Nov the position over a tag was read to a few centimetres (`hardware/RPi5_onboard_computer.md`), below the resolution of this table.
+
+```
+python3 analysis/anchor_counterfactual.py data/ARIADNE_E1_*.csv --csv analysis/results/anchor_counterfactual.csv --plot analysis/results/anchor_counterfactual.png
+```
+
+Result over the 75 runs (medians; "max" is the largest error between two anchors, p90 over runs in brackets; missed = anchors outside the swath):
+
+| Group | n | No anchor: end / max | Every 5 m: max | Every 10 m: max | Every 20 m: max |
+|---|---|---|---|---|---|
+| grass 3 m, 1.5 m/s | 33 | 2.2 / 3.8 m | 1.0 m (1.5), 0 missed | 1.4 m (1.9), 0 missed | 2.1 m (2.7), 0 missed |
+| grass 3 m, 0.75 m/s | 5 | 2.9 / 3.7 m | 1.2 m (2.1), 0 | 2.4 m (3.5), 1 of 45 | 2.4 m (5.3), 1 of 21 |
+| field 3 m, 1.5 m/s | 18 | 3.7 / 6.1 m | 1.4 m (2.0), 0 | 2.4 m (3.7), 0 | 3.1 m (5.9), 0 |
+| grass 1.5 m, 1.5 m/s | 8 | 5.6 / 9.8 m | 1.7 m (2.3), 0 | 3.0 m (4.8), 2 of 78 | 7.4 m (9.3), 15 of 38 |
+| field 1.5 m, 1.5 m/s | 11 | 4.9 / 9.2 m | 1.7 m (2.1), 0 | 4.0 m (8.5), 43 of 110 | 8.4 m (12.7), 39 of 53 |
+| all | 75 | 2.9 / 5.0 m | 1.2 m (2.0), 0 | 1.9 m (4.6), 46 | 2.9 m (8.4), 55 |
+
+Reading: at 3 m a row every 10 m keeps the error below about 2.5 m in nine runs of ten with every row captured; every 5 m, below about 2 m everywhere. At 1.5 m the swath is 1.5 m wide and the scale error 10 to 20 %, so with rows every 10 m the lateral error at the row exceeds the swath in 40 % of the field anchors, the anchor is missed and the error runs free up to the next captured row; every 5 m is needed there.
+
+What this does not show: a real correction changes the flight path (the aircraft would fly to where it now knows it is), the velocity scale stays wrong between anchors, and the capture test uses the geometry of the swath only (detection in motion is a separate measurement: `hardware/RPi5_onboard_computer.md`, stage A). It is a bound on what position-only anchoring can do with the drift measured in E1, not a flight result.
+
 ## Files
 
 | File | Title |
 |---|---|
+| [`anchor_counterfactual.py`](anchor_counterfactual.py) |  |
 | [`apriltag_detect.py`](apriltag_detect.py) |  |
+| [`apriltag_raw/cb_calib.py`](apriltag_raw/cb_calib.py) |  |
+| [`apriltag_raw/cb_scan.py`](apriltag_raw/cb_scan.py) |  |
+| [`apriltag_raw/common.py`](apriltag_raw/common.py) |  |
+| [`apriltag_raw/dist.py`](apriltag_raw/dist.py) |  |
+| [`apriltag_raw/fx.py`](apriltag_raw/fx.py) |  |
+| [`apriltag_raw/log_extract.py`](apriltag_raw/log_extract.py) |  |
+| [`apriltag_raw/mount.py`](apriltag_raw/mount.py) |  |
+| [`apriltag_raw/raw_detect.py`](apriltag_raw/raw_detect.py) |  |
+| [`apriltag_raw/scale.py`](apriltag_raw/scale.py) |  |
+| [`apriltag_raw/sync.py`](apriltag_raw/sync.py) |  |
+| [`apriltag_raw/sync2.py`](apriltag_raw/sync2.py) |  |
+| [`apriltag_raw/world.py`](apriltag_raw/world.py) |  |
 | [`apriltag_video.py`](apriltag_video.py) |  |
 | [`balance.py`](balance.py) |  |
 | [`cut_runs.py`](cut_runs.py) |  |
@@ -238,3 +282,4 @@ python3 analysis/apriltag_detect.py movies/kam0_20261011_192145.mp4 --tag-size 0
 | [`session_weather.py`](session_weather.py) |  |
 | [`stitch_recording.sh`](stitch_recording.sh) |  |
 | [`wind_from_log.py`](wind_from_log.py) |  |
+| [`apriltag_raw/README.md`](apriltag_raw/README.md) | AprilTag detection on the raw onboard stream (1 Nov 2026) |

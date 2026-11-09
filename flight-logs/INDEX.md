@@ -177,7 +177,65 @@ Protocol §9.1 assumed one log per run. In practice one log covers several fligh
 | E1-058 | LUX1 (~39 klx)-SURF1-**ALT15**-VEL15, T3 forward | `log_55_2026-10-11-13-10-06.bin` | 138.2–231.4 | S-25 | accepted; drift 12.3 m at 30 s, 15.2 m at 60 s | — (flights at 1.5 m) |
 | E1-059 | LUX1 (~41 klx)-SURF1-**ALT15**-VEL15, T3 forward | `log_55_2026-10-11-13-10-06.bin` | 439.2–530.3 | S-25 | accepted; drift 10.0 m at 30 s, 13.7 m at 60 s | — |
 | E1-060 | LUX1 (~55 klx)-SURF1-**ALT15**-VEL15, T3 forward | `log_55_2026-10-11-13-10-06.bin` | 725.3–812.0 | S-25 | accepted; drift 6.5 m at the end | — |
+| E1-061 | LUX1 (~54 klx)-SURF2-**ALT15**-VEL15, T1 forward | `log_56_2026-10-17-13-53-08.bin` | 250.9–344.6 | S-26 | accepted; drift 3.2 m at 60 s | — (first flight of the pack) |
+| E1-062 | LUX1 (~68 klx)-SURF2-**ALT15**-VEL15, T1 forward | `log_56_2026-10-17-13-53-08.bin` | 445.3–541.6 | S-26 | accepted; drift 4.9 m at 60 s, 5.6 m at the end | 0.82° / 241° / 1.5° |
+| E1-063 | LUX1 (~41 klx)-SURF2-**ALT15**-VEL15, T1 forward | `log_56_2026-10-17-13-53-08.bin` | 641.7–733.3 | S-26 | accepted; drift 7.4 m at 60 s, 15.1 m at the end | 0.89° / 263° / 2.1° |
+| E1-064 | LUX1 (~80 klx)-SURF2-**ALT15**-VEL15, T1 forward | `log_56_2026-10-17-13-53-08.bin` | 840.2–930.1 | S-26 | accepted; drift 4.6 m at 60 s | 0.69° / 250° / 1.7° |
+| E1-065 | LUX1 (~79 klx)-SURF1-ALT3-VEL15, T3 forward | `log_57_2026-10-17-14-09-48.bin` | 290.0–380.5 | S-26 | accepted; VEL075 plan flown at 1.5 m/s (`DO_CHANGE_SPEED` without effect, `WP_SPD` 1.5), counted as VEL15 | — |
+| E1-066 | LUX1 (~79 klx)-SURF1-ALT3-**VEL075**, T3 forward | `log_57_2026-10-17-14-09-48.bin` | 630.4–776.3 | S-26 | accepted; 0.75 m/s confirmed from the GNSS speed (0.77 m/s) | 0.40° / 289° / 1.8° |
+| E1-067 | LUX1 (~70 klx)-SURF2-**ALT15**-VEL15, T1 forward | `log_58_2026-10-17-14-26-00.bin` | 168.0–256.7 | S-26 | accepted; drift 7.5 m at 30 s, 9.5 m at 60 s | — (first flight of the pack) |
+| E1-068 | LUX1 (~74 klx)-SURF2-**ALT15**-VEL15, T1 forward | `log_58_2026-10-17-14-26-00.bin` | 362.2–450.0 | S-26 | accepted; drift 5.8 m at the end | 1.18° / 49° / 1.7° |
+| E1-069 | LUX1 (~34 klx)-SURF2-**ALT15**-VEL15, T1 forward | `log_58_2026-10-17-14-26-00.bin` | 554.5–653.4 | S-26 | accepted; thin cloud over the sun; drift 5.9 m at the end | 0.94° / 122° / 1.7° |
+| E1-070 | LUX1 (~33 klx)-SURF2-**ALT15**-VEL15, T1 forward | `log_58_2026-10-17-14-26-00.bin` | 760.4–853.0 | S-26 | accepted; drift 4.7 m at 60 s | 1.37° / 66° / 2.0° |
+| E1-071 | LUXd (~600 lx)-SURF2-**ALT15**-VEL15, T1 forward | `log_59_2026-10-17-17-45-50.bin` | 126.4–221.8 | S-26 | accepted; drift 7.2 m at 60 s | — (flights at 1.5 m) |
+| E1-072 | LUXd (~470 lx)-SURF2-**ALT15**-VEL15, T1 forward | `log_59_2026-10-17-17-45-50.bin` | 327.8–426.0 | S-26 | accepted; drift 8.0 m at 60 s | — |
+| E1-073 | LUXd (~320 lx)-SURF2-**ALT15**-VEL15, T1 forward | `log_59_2026-10-17-17-45-50.bin` | 525.9–620.3 | S-26 | accepted; drift 11.7 m at the end | — |
+| E1-074 | LUXd (~115 lx)-SURF1-**ALT15**-VEL15, T3 forward | `log_60_2026-10-17-17-59-04.bin` | 220.3–313.7 | S-26 | accepted; drift 7.7 m at 60 s | — |
+| E1-075 | LUXd (~54 lx)-SURF1-**ALT15**-VEL15, T3 forward | `log_60_2026-10-17-17-59-04.bin` | 524.2–625.4 | S-26 | accepted, flag: OF.Qual < 255 (37 % of samples, 6 % at 0), 80 → 37 lx during the run; drift 10.3 m at 60 s | — |
 
-Cell code: LUX1 = full daylight (12 Sep: 34–70 klx, variable cloud cover; 13 Sep: 53–93 klx, 167–221 klx with direct sun on the dome, variable cirrus), SURF1 = fresh grass, not mown, SURF2 = ploughed field (clods with stubble remains, S-19), ALT3 = 3.0 m, VEL15 = 1.5 m/s, VEL075 = 0.75 m/s (`WP_SPD` 0.75 and `DO_CHANGE_SPEED` in the plan, from S-22). LUX2 = overcast daylight (20 Sep: 3120–18 800 lx, cloud cover 7–8/8 after 16:20). LUXd = illuminance descent series (dusk), the lx value = the geometric mean of the measurement before and after the flight, see S-18. Configuration: `ariadne_v2_12sep2026_1113.params`, ArduCopter 4.7.0 (1511f271); from 13 Sep `ariadne_v2_13sep2026_1100.params` (only `FENCE_RADIUS` 70 → 90); from 17 Sep `ariadne_v2_17sep2026_1705.params` (`FENCE_RADIUS` 90 → 120) and a new set of 1045 propellers. ALT15 = 1.5 m.
+Cell code: LUX1 = full daylight (12 Sep: 34–70 klx, variable cloud cover; 13 Sep: 53–93 klx, 167–221 klx with direct sun on the dome, variable cirrus; 17 Oct: 27–97 klx, altocumulus with gaps), SURF1 = fresh grass, not mown, SURF2 = ploughed field (clods with stubble remains, S-19), ALT3 = 3.0 m, VEL15 = 1.5 m/s, VEL075 = 0.75 m/s (`WP_SPD` 0.75 and `DO_CHANGE_SPEED` in the plan, from S-22). LUX2 = overcast daylight (20 Sep: 3120–18 800 lx, cloud cover 7–8/8 after 16:20). LUXd = illuminance descent series (dusk), the lx value = the geometric mean of the measurement before and after the flight, see S-18. Configuration: `ariadne_v2_12sep2026_1113.params`, ArduCopter 4.7.0 (1511f271); from 13 Sep `ariadne_v2_13sep2026_1100.params` (only `FENCE_RADIUS` 70 → 90); from 17 Sep `ariadne_v2_17sep2026_1705.params` (`FENCE_RADIUS` 90 → 120) and a new set of 1045 propellers. ALT15 = 1.5 m.
 
 Wind from log (`wind_from_log.py`, `analysis/results/wind_20260912.md`): resultant tilt in the hover with GNSS immediately before the cut-off, the direction the wind blows from, and the p95 of the instantaneous tilt (gustiness). A covariate for analysis, not a matrix factor; the §8 criterion remains the anemometer. "—" = no hover window ≥ 15 s before the given run (first flight of a pack); the session value then applies: S-17 about 1.1° NW, S-18 about 0.6° SW.
+
+## AprilTag camera tests, outside E1 (from 1 Nov 2026)
+
+Test flights over a row of three tags (ID 10–12, 22 cm) on the field next to the forest house, to check detection by the downward camera. Not part of the E1 dataset. Plans in `missions/apriltag/` (README there), recordings in `movies/apriltag/`, detection results in `analysis/results/apriltag/`. Times are local (CET) from GPS time in the log. All flights on EKF source set 1 (GNSS), 1.5 m terrain frame. From `PARM` in both logs: `WP_SPD` 1.5, `WP_RADIUS_M` 2.0, `FENCE_ENABLE` 1, `FENCE_RADIUS` 120, `EK3_SRC1_POSXY` 3, `EK3_SRC2_VELXY` 5, `SURFTRAK_MODE` 1, `RNGFND1_MAX` 6. Configuration unchanged since `ariadne_v2_17sep2026_1705.params`; no parameter snapshot. Row measured on site: 22 cm tags, 0.75 m between centres, measured with a laser distance meter, as designed. No session card and no other field measurements (illuminance, wind, position of the row relative to the track): the flights were made to collect recordings for the detector.
+
+| Log | Flight | Armed – disarmed | Auto | Plan (from `CMD` in the log) | Result |
+|---|---|---|---|---|---|
+| `log_63_2026-11-1-12-50-36.bin` | 1 | before log start (12:28:06) – 12:28:41 | 12:28:35 | `TEST_apriltag_20261101_320deg_10m_x3_1.5m_LAND` | Land at 12:28:40, at waypoint 1 |
+| `log_63_2026-11-1-12-50-36.bin` | 2 | 12:30:06 – 12:31:01 | 12:30:29 | `TEST_apriltag_20261101_312deg_10m_x3_1.5m_LAND` | waypoint 2 at 12:30:44, Loiter 12:30:50, Land 12:31:00 |
+| `log_63_2026-11-1-12-50-36.bin` | 3 | 12:32:37 – 12:34:25 | 12:32:48 | `TEST_apriltag_20261101_312deg_left1.5_10m_x3_1.5m_LAND` | waypoints 1–7 by 12:34:07, Loiter 12:34:20, Land |
+| `log_63_2026-11-1-12-50-36.bin` | 4 | 12:42:16 – 12:44:44 | 12:42:26 | `TEST_apriltag_20261101_312deg_left1.0_20m_x3_1.5m_LAND` | waypoints 1–7, mission LAND at 12:44:37 |
+| `log_63_2026-11-1-12-50-36.bin` | 5 | 12:47:37 – 12:50:21 | 12:48:01 | `TEST_apriltag_20261101_305deg_left2.0_20m_x3_1.5m_LAND` | waypoints 1–7, mission LAND at 12:50:13; 12:50:23 PreArm: Battery 1 below minimum arming voltage |
+| `log_64_2026-11-1-13-00-44.bin` | 6 | before log start (12:53:21) – 12:55:49 | 12:53:29 | `TEST_apriltag_20261101_313deg_left2.0_20m_x3_1.5m_LAND` | waypoints 1–7, mission LAND at 12:55:41 |
+| `log_64_2026-11-1-13-00-44.bin` | 7 | 12:56:13 – 13:00:29 | none | none | Loiter, Land 13:00:24 |
+
+Recordings of the same day: `movies/apriltag/kam0_20261101_121629.mp4` and `kam1_…` (2064.8 s, session directory `sesja_065_20261101-1216`), `kam0_20261101_125221.mp4` and `kam1_…` (525.5 s, `sesja_066_20261101-1252`). The test of 24 Oct 2026 (`kam0_20261024_174328.mp4`, near the house, flown by hand in Loiter) was a test flight; its logs (`log_61`, `log_62`) are not kept in the repository.
+
+### 2 Nov 2026: first flight test of the onboard detector (`tagcam.py`)
+
+Same field as 1 Nov. Row: the two-sheet A4 tags ID 10–12 of 1 Nov, laid across a track of 309°, 0.75 m between centres as intended. kam0 recorded by `tagcam.py` in place of the kam0 recording service (detections on the Pi in real time, 15 Hz), kam1 by `rpicam-vid`. EKF source set 1 (GNSS). From `PARM`: `WP_SPD` 1.5, `WP_RADIUS_M` 2.0, `WP_ACC` 2.5, `WP_YAW_BEHAVIOR` 2, `FENCE_ENABLE` 1, `FENCE_RADIUS` 120, `EK3_SRC1_POSXY` 3, `SURFTRAK_MODE` 1, `RNGFND1_MAX` 6; configuration unchanged. Times CET from GPS time in the log. Missions identified from the `CMD` messages in the log.
+
+| Log | Flight | Armed – disarmed | Auto | Mission (from `CMD`) | Result |
+|---|---|---|---|---|---|
+| `log_65_2026-11-2-15-12-20.bin` | 1 | 14:54:02 – 14:54:33 | 14:54:12 – 14:54:26 | start 50.9186761 / 19.0812630, end 20 m on 309°, 1.5 m (an earlier version of the plan, file not kept) | aborted on the way to waypoint 1, Loiter, Land |
+| `log_65_2026-11-2-15-12-20.bin` | 2 | 14:55:46 – 14:58:13 | 14:55:54 – 14:58:06 | `TEST_apriltag_20261102_309deg_pass20m_x3_1.5m_LAND` | waypoints 1–7, Loiter at 14:58:06, Land |
+| `log_65_2026-11-2-15-12-20.bin` | 3 | 14:58:30 – 15:01:01 | 14:58:38 – 15:01:00 | `TEST_apriltag_20261102_309deg_pass20m_x3_3m_LAND` | waypoints 1–7, mission LAND at 15:00:49 |
+| `log_65_2026-11-2-15-12-20.bin` | 4 | 15:03:28 – 15:04:42 | 15:04:02 – 15:04:37 | `TEST_apriltag_20261102_vertical_ID11_LAND` | waypoints 1–3 (1.5 m at the start, 1.5 m over the point, descent to 0.8 m), Loiter at 15:04:37, Land |
+| `log_65_2026-11-2-15-12-20.bin` | 5 | 15:08:07 – 15:09:56 | 15:08:34 – 15:09:48 | `TEST_apriltag_20261102_vertical_inplace_noLAND` | positioned over the row by hand in Loiter; waypoints 1–9 in place, 0.74–3.59 m; Loiter, Land; 15:09:57 PreArm: Battery 1 below minimum arming voltage |
+| `log_65_2026-11-2-15-12-20.bin` | 6 | 15:10:19 – 15:12:06 | 15:10:39 – 15:11:59 | `TEST_apriltag_20261102_vertical_inplace_noLAND` | as flight 5; 15:12:16 RPi shut down with the SE switch |
+
+Recordings: `movies/apriltag/kam0_20261102_142847.mp4` (2608.8 s, `tagcam_20261102-1428`, with `detections.csv`) and `kam1_20261102_142846.mp4` (2608.5 s, `sesja_004_20261102-1428`). No session card; wind not recorded on site. Illuminance 481.8 fc (GM1010, about 5190 lx) at 14:28, before the flights, next to the row (`build-log/photos/2026-11-02/2026-11-02_IMG_2399.HEIC`). Tags measured with a ruler after the session (the same tags as on 1 Nov): black square 22.0 cm, one tag 22.1 cm (IMG_2400 to IMG_2402, 16:07). Spacing on site checked with a laser distance meter, approximate; from the hover images (tag size 0.22 m as the scale, kam0 calibration): 0.786 m between ID 10 and 11, 0.774 m between ID 11 and 12, 1.570 m between ID 10 and 12 (medians, 722 to 1365 frames).
+
+### 7 Nov 2026: detection in motion with a fixed 8 ms shutter
+
+Same field, same tags (two-sheet A4, ID 10–12), same plans as 2 Nov (`missions/apriltag/README.md`). `tagcam.py` with `--exposure-us 8000` on kam0, kam1 by `rpicam-vid`. Row checked on site with the `AriadneTags` app: 0.75 / 0.76 m (`build-log/photos/2026-11-07/`, screenshots 15:11). Illuminance next to the row before the flights, GM1010: 544.1 and 552.9 fc (about 5860 and 5950 lx; IMG_2524, IMG_2525, 15:12). Times CET from GPS time in the log; configuration unchanged (`WP_SPD` 1.5, `WP_RADIUS_M` 2.0, `EK3_SRC1_POSXY` 3, `FENCE_ENABLE` 1, `FENCE_RADIUS` 120, `SURFTRAK_MODE` 1).
+
+| Log | Flight | Armed – disarmed | Auto | Mission (from `CMD`) | Result |
+|---|---|---|---|---|---|
+| `log_66_2026-11-7-15-31-16.bin` | 1 | before log start (15:22:20) – 15:23:19 | 15:22:45 – 15:23:14 | `TEST_apriltag_20261102_vertical_inplace_noLAND` | waypoints 1–3, Land at 15:23:14 |
+| `log_66_2026-11-7-15-31-16.bin` | 2 | 15:24:16 – 15:26:54 | 15:24:37 – 15:26:49 | `TEST_apriltag_20261102_309deg_pass20m_x3_1.5m_LAND` | waypoints 1–6 (three passes), Land at 15:26:49 before waypoint 7 |
+| `log_66_2026-11-7-15-31-16.bin` | 3 | 15:28:23 – 15:31:02 | 15:28:42 – 15:30:53 | `TEST_apriltag_20261102_309deg_pass20m_x3_3m_LAND` | waypoints 1–6 (three passes), Land at 15:30:53 |
+
+Onboard detections in the passes (detector at 15 Hz, exposure 8 ms, gain 3.5 to 4.4, margin 47 to 52): 1.5 m, 1.4 to 1.6 m/s: 11, 10, 11, 10, 11, 9 detector frames per pass, two tags in each (the row is 1.5 m wide, the swath 1.5 m); 3 m: 22, 19, 20, 19, 23, 21 frames per pass, all three tags. On 2 Nov with automatic exposure the same passes gave 2 to 5 frames at 1.5 m and none at 3 m. Recordings: `movies/apriltag/kam0_20261107_151418.mp4` and `kam1_20261107_151416.mp4` (1035.7 s; `tagcam_20261107-1514` with the CSVs, `sesja_009_20261107-1514`). No session card; wind not recorded.

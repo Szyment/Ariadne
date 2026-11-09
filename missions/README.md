@@ -13,6 +13,8 @@ QGroundControl mission plans for the E1 campaign: A → B → A → home → LAN
 
 Run: hold at A 30 s → B 3 s → A 30 s (in `RTL`: 15 s). Speed: `WP_SPD` 150 = 1.5 m/s. The VEL 0.75 level has its own file `*_VEL075_*` with `DO_CHANGE_SPEED` 0.75 m/s at the start of the mission; because this command disappears on re-entering Auto (S-10), before a VEL 0.75 flight we also set `WP_SPD` 75 in QGC and restore 150 after the flight. The file exists so that the flight maps onto the plan; the parameter is the safeguard. Build the plan in QGC after reading the take-off position on site.
 
+Plans for the AprilTag camera tests (outside E1) are in `missions/apriltag/`, with their own README.
+
 ## Tracks (Kępa)
 
 | Track | A | B | Course A→B | Home | Sessions |
@@ -35,9 +37,9 @@ Run: hold at A 30 s → B 3 s → A 30 s (in `RTL`: 15 s). Speed: `WP_SPD` 150 =
 | `E1_grass_T3_1.5m_LAND.plan` | from 20 Sep | track T3, 1.5 m |
 | `E1_grass_T3R_3m_LAND.plan` | from S-23 | track T3 **reversed**: B 30 s → A 3 s → B 30 s → home → LAND; flown alternately with the forward plan to separate leg order from heading (S-22 finding 5) |
 | `E1_field_T1R_3m_LAND.plan` | from S-23 | track T1 reversed, same purpose |
-| `E1_grass_T3_3m_VEL075_LAND.plan` | from 20 Sep | track T3, 3 m, `DO_CHANGE_SPEED` 0.75 m/s as the first command; additionally `WP_SPD` 75 in QGC before the flight (see below) |
+| `E1_grass_T3_3m_VEL075_LAND.plan` | from 20 Sep | track T3, 3 m, `DO_CHANGE_SPEED` 0.75 m/s as the first command; additionally `WP_SPD` 75 in QGC before the flight (see below). On 17 Oct (S-26) the command executed in both flights with `WP_SPD` 1.5 and the first flight went at 1.5 m/s, the second at 0.75 m/s; the parameter is the only safeguard |
 | `E1_field_T1_3m_LAND.plan` | S-19 flights 1–3, S-21 | |
-| `E1_field_T1_1.5m_LAND.plan` | not yet flown | |
+| `E1_field_T1_1.5m_LAND.plan` | from S-26 (17 Oct) | track T1, 1.5 m; eleven runs on 17 Oct |
 | `E1_field_T2_3m_LAND.plan` | S-19 flights 4–6 | reconstruction from the card and `log_34` |
 
 The reconstructions were made on 18 Sep 2026: points, holds and altitudes consistent with what was flown; the order of the JSON fields may differ from the QGC record.
